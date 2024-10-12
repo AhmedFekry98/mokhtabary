@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('client_details', function (Blueprint $table) {
+        Schema::create('personal_access_tokens', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('client_id');
+            $table->morphs('tokenable');
             $table->string('name');
-            $table->string('country');
-            $table->string('city');
-            $table->string('state');
-            $table->string('street');
-            $table->string('post_code');
+            $table->string('token', 64)->unique();
+            $table->text('abilities')->nullable();
+            $table->timestamp('last_used_at')->nullable();
+            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('client_details');
+        Schema::dropIfExists('personal_access_tokens');
     }
 };

@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class LabDetail extends Model
+class RadiologyDetail extends Model
 {
     use HasFactory;
 
     protected $fillable =[
-        'lab_id',
+        'radiology_id',
         'parent_id',
         'name',
         'country',
@@ -20,7 +20,7 @@ class LabDetail extends Model
         'state',
         'street',
         'post_code',
-        'description'
+        'description',
     ];
 
     public function parant(): BelongsTo
@@ -32,5 +32,4 @@ class LabDetail extends Model
     {
         return $this->hasMany(self::class, 'parent_id');
     }
-    
 }

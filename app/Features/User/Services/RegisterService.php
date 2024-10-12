@@ -1,0 +1,99 @@
+<?php
+
+namespace App\Features\User\Services;
+
+use App\Features\User\Models\FamilyDetail;
+use App\Features\User\Models\LabDetail;
+use App\Features\User\Models\RadiologyDetail;
+use App\Features\User\Models\User;
+use Exception;
+use Graphicode\Standard\TDO\TDO;
+use Illuminate\Support\Facades\DB;
+
+class RegisterService
+{
+    private static $model                   = User::class;
+    private static $modelFamilyDetail       = FamilyDetail::class;
+
+
+    public function register(TDO $tdo, string $guard)
+    {
+        $craeteData = $tdo->all();
+     
+        try {
+           // Here you can add the logic to register the user based on the guard
+        switch ($guard) {
+            case 'client':
+                return $this->registerClient($craeteData,$guard);
+            case 'lab':
+                case 'labBranch':
+                return $this->registerLab($craeteData,$guard);
+            case 'radiology':
+            case 'radiologyBranch':
+                return $this->registerRadiology($craeteData,$guard);
+            case 'family':
+                return $this->registerFamily($craeteData,$guard);
+            default:
+                throw new \InvalidArgumentException("Invalid guard type provided");
+        }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    private function registerClient(array $craeteData,string $guard)
+    {
+        try{
+            DB::beginTransaction();
+            $credential = self::$model::create($craeteData);
+            $credential->clientDetail()->create($craeteData);       
+            $credential->assignRole($guard);
+            DB::commit();
+            return $credential;
+        }catch(Exception $e){
+            DB::rollBack();
+            return $e->getMessage();
+        }
+
+    }
+
+    private function registerLab(array $craeteData,string $guard)
+    {
+        try{
+            DB::beginTransaction();
+            $credential = self::$model::create($craeteData);
+            $credential->labDetail()->create($craeteData);       
+            $credential->assignRole($guard);
+            DB::commit();
+            return $credential;
+        }catch(Exception $e){
+            DB::rollBack();
+            return $e->getMessage();
+        }
+
+    }
+
+    private function registerRadiology(array $craeteData,string $guard)
+    {
+        try{
+            DB::beginTransaction();
+            $credential = self::$model::create($craeteData);
+            $credential->radiologyDetail()->create($craeteData);       
+            $credential->assignRole($guard);
+            DB::commit();
+            return $credential;
+        }catch(Exception $e){
+            DB::rollBack();
+            return $e->getMessage();
+        }
+    }
+
+    private function registerFamily(array $craeteData,string $guard)
+    {
+        $craeteData['client_id'] = auth('sanctum')->user()->id;
+        $credential = self::$modelFamilyDetail::create($craeteData);
+        // $credential->assignRole($guard);
+        return $credential;
+    }
+
+}

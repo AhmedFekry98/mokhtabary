@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('family_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('client_id');
+            $table->string('name');
+            $table->string('country');
+            $table->string('city');
+            $table->string('state');
+            $table->string('street');
+            $table->string('post_code');
+            $table->string('phone')->unique();
+            $table->string('email')->unique();
             $table->timestamps();
         });
     }

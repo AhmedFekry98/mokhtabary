@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('client_details', function (Blueprint $table) {
+        Schema::create('radiology_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('client_id');
+            $table->unsignedInteger('radiology_id');
+            $table->unsignedInteger('parent_id')->nullable();
             $table->string('name');
             $table->string('country');
             $table->string('city');
             $table->string('state');
             $table->string('street');
             $table->string('post_code');
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('client_details');
+        Schema::dropIfExists('radiology_details');
     }
 };

@@ -5,19 +5,15 @@ namespace App\Features\User\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FamilyDetail extends Model
+class ResetPassword extends Model
 {
     use HasFactory;
 
     protected $fillable =[
-        'client_id',
-        'name',
-        'country',
-        'city',
-        'state',
-        'street',
-        'post_code',
         'phone',
-        'email',
+        'model',
+        'code',
+        'expired_at',
+        'token',
     ];
 }

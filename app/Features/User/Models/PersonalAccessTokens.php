@@ -5,17 +5,16 @@ namespace App\Features\User\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ClientDetail extends Model
+class PersonalAccessTokens extends Model
 {
     use HasFactory;
 
-    protected $fillable =[
-        'client_id',
+    protected $fillable = [
+        'tokenable',
         'name',
-        'country',
-        'city',
-        'state',
-        'street',
-        'post_code'
+        'token',
+        'abilities',
+        'last_used_at',
+        'expires_at',
     ];
 }
