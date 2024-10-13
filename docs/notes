@@ -1,0 +1,19 @@
+-- user feature
+make middelware to chek lab and radraigy to create branch 
+make middelware to chek verify phone  use global middelware
+make middelware to chek client to add family
+add auth sanctum for company profile - coupons - contactmessage 
+make  user resoucre for branches
+
+
+-- lab  and radiology
+- check in function get lab test is master lab and make perrmition lab and admin only update
+- make pagination for retun lab tests function getall
+- getLabTests use function sevices test user
+- UOCLabTestRequest make key not requierd when update but requierd in create
+
+
+
+--- ui ux dashboard
+
+for test lab make screen to get all lab and in the end link when click move to show and get tests with price and in the tab information for lab

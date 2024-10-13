@@ -19,7 +19,7 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
         ];
 
-        if(request('guard') == "family"){
+        if(request('guard') == "family"){ // user request gurad to family not have auth in user model
             $data['info'] = $request->except('email','phone');
             return $data;
         }
