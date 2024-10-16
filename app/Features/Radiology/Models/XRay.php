@@ -20,8 +20,10 @@ class XRay extends Model
     {
         return \database\factories\XRayFactory::new();
     }
+
     public function radiologyxRay()
     {
         return $this->hasOne(RadiologyxRay::class, 'x_ray_id');
     }
+
 }

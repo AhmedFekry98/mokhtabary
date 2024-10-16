@@ -1,8 +1,8 @@
 -- user feature
-make middelware to chek lab and radraigy to create branch 
+make middelware to chek lab and radraigy to create branch
 make middelware to chek verify phone  use global middelware
 make middelware to chek client to add family
-add auth sanctum for company profile - coupons - contactmessage 
+add auth sanctum for company profile - coupons - contactmessage
 make  user resoucre for branches
 
 
@@ -11,9 +11,26 @@ make  user resoucre for branches
 - make pagination for retun lab tests function getall
 - getLabTests use function sevices test user
 - UOCLabTestRequest make key not requierd when update but requierd in create
+- check all service they when make create multi table  use DB::belongto
 
+-- orders
+-- make meddileware to check the family is this user auth
+
+
+
+
+
+-- log
+-- make log for user
+
+-- cach
+-- make ching to make request faster
 
 
 --- ui ux dashboard
 
 for test lab make screen to get all lab and in the end link when click move to show and get tests with price and in the tab information for lab
+
+
+-- ask owner
+-- package is need add price for it
