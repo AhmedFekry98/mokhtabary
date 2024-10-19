@@ -23,7 +23,7 @@ class RadiologyDetail extends Model
         'description',
     ];
 
-    public function parant(): BelongsTo
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class, 'parent_id');
     }

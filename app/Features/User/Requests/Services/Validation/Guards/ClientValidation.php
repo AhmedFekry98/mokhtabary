@@ -20,6 +20,7 @@ class ClientValidation implements GuardValidationStrategy
             'state'          => ['required', 'string'],
             'street'         => ['nullable', 'string'],
             'post_code'      => ['nullable', 'string'],
+            'imag'           => ['nullable','image']
         ];
     }
 }

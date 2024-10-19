@@ -18,7 +18,6 @@ class RadiologyValidation implements GuardValidationStrategy
     {
         $rules = [
             // 'radiology_id'          => ['required', 'integer'],
-            'parent_id'         => ['nullable', 'integer','exists:users,id'],
             'description'           => ['nullable', 'string'],
             'email'                 => ['required', 'email','unique:users,email'],
             'phone'                 => ['required', 'string','unique:users,phone'],
@@ -29,14 +28,15 @@ class RadiologyValidation implements GuardValidationStrategy
             'state'                 => ['required', 'string'],
             'street'                => ['nullable', 'string'],
             'post_code'             => ['nullable', 'string'],
+            'imag'                  => ['nullable','image']
         ];
 
         // Add parent_id rule if the guard is 'radiologyBranch'
-        if ($this->guard == "radiologyBranch") {
-            $rules['parent_id'] = ['required', 'integer', 'exists:users,id'];
+        if ($this->guard == "labBranch") {
+            $rules['parent_id'] = ['required', 'integer', 'exists:radiology_details,id'];
         } else {
-            // Make parent_id nullable for 'lab' guard
-            $rules['parent_id'] = ['nullable', 'integer', 'exists:users,id'];
+            // Make parent_id nullable for 'radiology' guard
+            $rules['parent_id'] = ['nullable', 'integer'];
         }
 
         return $rules;

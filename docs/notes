@@ -12,16 +12,19 @@ make  user resoucre for branches
 - getLabTests use function sevices test user
 - UOCLabTestRequest make key not requierd when update but requierd in create
 - check all service they when make create multi table  use DB::belongto
+- makeonly admin can see all data
+
 
 -- orders
 -- make meddileware to check the family is this user auth
 
+-- parent_id is refrence to id in labdetail // done
 
 
 
 
 -- log
--- make log for user
+-- make log for user // done
 
 -- cach
 -- make ching to make request faster
@@ -29,8 +32,6 @@ make  user resoucre for branches
 
 --- ui ux dashboard
 
-for test lab make screen to get all lab and in the end link when click move to show and get tests with price and in the tab information for lab
+for test lab make screen to get all lab and in the end link when click move to show and get tests with price and in the tab information for lab // done
 
 
--- ask owner
--- package is need add price for it

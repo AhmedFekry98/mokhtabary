@@ -17,7 +17,7 @@ class LabValidation implements GuardValidationStrategy
 
     public function rules(): array
     {
-        
+
         $rules = [
             // 'lab_id'            => ['required', 'integer'],
             'description'       => ['nullable', 'string'],
@@ -30,14 +30,15 @@ class LabValidation implements GuardValidationStrategy
             'state'             => ['required', 'string'],
             'street'            => ['nullable', 'string'],
             'post_code'         => ['nullable', 'string'],
+            'imag'           => ['nullable','image']
         ];
 
         // Add parent_id rule if the guard is 'labBranch'
         if ($this->guard == "labBranch") {
-            $rules['parent_id'] = ['required', 'integer', 'exists:users,id'];
+            $rules['parent_id'] = ['required', 'integer', 'exists:lab_details,id'];
         } else {
             // Make parent_id nullable for 'lab' guard
-            $rules['parent_id'] = ['nullable', 'integer', 'exists:users,id'];
+            $rules['parent_id'] = ['nullable', 'integer'];
         }
 
         return $rules;

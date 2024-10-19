@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, HasApiTokens ;
-    
+    use HasFactory, HasApiTokens , InteractsWithMedia;
+
     protected $fillable =[
         'email',
         'phone',
@@ -52,8 +54,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class, 'user_roles');
     }
-    
-    // to get role 
+
+    // to get role
     public function getRoleAttribute(): ?Role
     {
         return $this->roles()->first();
@@ -70,7 +72,7 @@ class User extends Authenticatable
             return false;
         }
     }
-    
+
     public function verificationCodes()
     {
         return $this->hasMany(VerificationCode::class, 'user_id');
@@ -88,5 +90,15 @@ class User extends Authenticatable
         ]);
     }
 
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('users')
+            ->singleFile()
+            // ->useFallbackPath()
+            ->useFallbackUrl(
+                asset('/img/default-img.jpg')
+            );
+    }
 
 }

@@ -19,7 +19,7 @@ class RegisterService
     public function register(TDO $tdo, string $guard)
     {
         $craeteData = $tdo->all();
-     
+
         try {
            // Here you can add the logic to register the user based on the guard
         switch ($guard) {
@@ -46,8 +46,12 @@ class RegisterService
         try{
             DB::beginTransaction();
             $credential = self::$model::create($craeteData);
-            $credential->clientDetail()->create($craeteData);       
+            $credential->clientDetail()->create($craeteData);
             $credential->assignRole($guard);
+            $img = $craeteData['img'];
+            if($img){
+                $credential->addMedia($img)->toMediaCollection('users');
+            }
             DB::commit();
             return $credential;
         }catch(Exception $e){
@@ -62,8 +66,12 @@ class RegisterService
         try{
             DB::beginTransaction();
             $credential = self::$model::create($craeteData);
-            $credential->labDetail()->create($craeteData);       
+            $credential->labDetail()->create($craeteData);
             $credential->assignRole($guard);
+            $img = $craeteData['img'];
+            if($img){
+                $credential->addMedia($img)->toMediaCollection('users');
+            }
             DB::commit();
             return $credential;
         }catch(Exception $e){
@@ -78,8 +86,12 @@ class RegisterService
         try{
             DB::beginTransaction();
             $credential = self::$model::create($craeteData);
-            $credential->radiologyDetail()->create($craeteData);       
+            $credential->radiologyDetail()->create($craeteData);
             $credential->assignRole($guard);
+            $img = $craeteData['img'];
+            if($img){
+                $credential->addMedia($img)->toMediaCollection('users');
+            }
             DB::commit();
             return $credential;
         }catch(Exception $e){
@@ -92,6 +104,10 @@ class RegisterService
     {
         $craeteData['client_id'] = auth('sanctum')->user()->id;
         $credential = self::$modelFamilyDetail::create($craeteData);
+        $img = $craeteData['img'];
+        if($img){
+            $credential->addMedia($img)->toMediaCollection('users');
+        }
         // $credential->assignRole($guard);
         return $credential;
     }
