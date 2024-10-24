@@ -31,8 +31,8 @@ class ResetPasswordController extends Controller
         }
 
         return $this->okResponse(
-            message: "send forget code to '{$result->phone}'",
-            data: $result->code
+            message: "Send Forget Code To '{$result->phone}' Successfuly",
+            data: $result->code. " i will hiden code after test mode to true"
         );
     }
 

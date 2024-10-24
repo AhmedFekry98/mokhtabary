@@ -15,7 +15,7 @@ class TestService
     public function getTests()
     {
         try {
-            $tests =  self::$model::get();
+            $tests =  self::$model::paginate(10);
 
             return $tests;
         } catch (\Exception $e) {

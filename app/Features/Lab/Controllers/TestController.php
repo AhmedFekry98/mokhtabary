@@ -7,6 +7,7 @@ use App\Features\Lab\Models\Test;
 use App\Features\Lab\Requests\StTestRequest;
 use App\Features\Lab\Requests\UpTestRequest;
 use App\Features\Lab\Services\TestService;
+use App\Features\Lab\Transformers\TestCollection;
 use Graphicode\Standard\Facades\TDOFacade;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -32,7 +33,7 @@ class TestController extends Controller
         $result = $this->testService->getTests();
 
         return $this->okResponse(
-            $result,
+            TestCollection::make($result),
             "Success api call"
         );
     }

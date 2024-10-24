@@ -13,6 +13,6 @@ class RadiologySeeder extends Seeder
      */
     public function run(): void
     {
-        XRay::factory(10)->create();
+        XRay::factory(1000)->create();
     }
 }

@@ -15,7 +15,7 @@ class XRayService
     public function getXRays()
     {
         try {
-            $xRays =  self::$model::get();
+            $xRays =  self::$model::paginate(10);
 
             return $xRays;
         } catch (\Exception $e) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace database\seeders;
+namespace Database\Seeders;
 
 use App\Features\Lab\Models\Test;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -13,6 +13,6 @@ class LabSeeder extends Seeder
      */
     public function run(): void
     {
-        Test::factory(10)->create();
+        Test::factory(1000)->create();
     }
 }

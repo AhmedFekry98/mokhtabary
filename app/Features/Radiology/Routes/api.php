@@ -10,9 +10,9 @@ Route::prefix("x-rays")->group(function() {
 
     Route::get('/', [XRayController::class , 'index']);
     Route::get('/{id}', [XRayController::class , 'show']);
-    Route::post('/', [XRayController::class , 'store']);
-    Route::put('/{id}', [XRayController::class , 'update']);
-    Route::delete('/{id}', [XRayController::class , 'destroy']);
+    Route::post('/', [XRayController::class , 'store'])->middleware(['auth:sanctum']);
+    Route::put('/{id}', [XRayController::class , 'update'])->middleware(['auth:sanctum']);
+    Route::delete('/{id}', [XRayController::class , 'destroy'])->middleware(['auth:sanctum']);
 
 });
 

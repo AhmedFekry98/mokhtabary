@@ -19,12 +19,12 @@ class ResetPasswordService
 
     public function forget(TDO $tdo)
     {
-  
+
         $phone = $tdo->phone;
 
         // Find the user by phone number
         $user = self::$model::where('phone', $phone)->first();
-    
+
         // If no user found, return false
         if (!$user) {
             return false;

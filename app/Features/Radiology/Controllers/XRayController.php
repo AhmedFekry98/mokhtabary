@@ -5,6 +5,7 @@ namespace App\Features\Radiology\Controllers;
 use App\Features\Radiology\Requests\StxRayRequest;
 use App\Features\Radiology\Requests\UpxRayRequest;
 use App\Features\Radiology\Services\XRayService;
+use App\Features\Radiology\Transformers\XrayCollection;
 use Graphicode\Standard\Facades\TDOFacade;
 use Graphicode\Standard\Traits\ApiResponses;
 use Illuminate\Routing\Controller;
@@ -29,7 +30,7 @@ class XRayController extends Controller
     {
         $result = $this->xRayService->getXRays();
         return $this->okResponse(
-            $result,
+            XrayCollection::make($result) ,
             "Success api call"
         );
     }

@@ -11,10 +11,10 @@ class TestFactory extends Factory
 
     public function definition(): array
     {
-        
+
         return [
             'num_code' => fake()->unique()->numberBetween(5000, 100000),
-            'code'     => fake()->unique()->word(),
+            'code'     => fake()->unique()->lexify('???-####'),
             'name_en'  => fake()->name(),
             'name_ar'  => fake()->name(),
         ];

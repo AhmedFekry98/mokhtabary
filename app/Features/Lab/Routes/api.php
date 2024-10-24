@@ -10,9 +10,9 @@ Route::prefix("tests")->group(function() {
 
     Route::get('/', [TestController::class , 'index']);
     Route::get('/{id}', [TestController::class , 'show']);
-    Route::post('/', [TestController::class , 'store']);
-    Route::put('/{id}', [TestController::class , 'update']);
-    Route::delete('/{id}', [TestController::class , 'destroy']);
+    Route::post('/', [TestController::class , 'store'])->middleware(['auth:sanctum']);
+    Route::put('/{id}', [TestController::class , 'update'])->middleware(['auth:sanctum']);
+    Route::delete('/{id}', [TestController::class , 'destroy'])->middleware(['auth:sanctum']);
 
 });
 
