@@ -2,10 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use database\seeders\LabSeeder;
-use database\seeders\RadiologySeeder;
-use database\seeders\RadiologyUnitTestSeeder;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder  extends Seeder

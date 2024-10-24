@@ -1,6 +1,6 @@
 <?php
 
-namespace database\seeders;
+namespace Database\Seeders;
 
 use App\Features\Radiology\Models\XRay;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
