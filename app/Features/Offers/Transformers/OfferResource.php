@@ -14,43 +14,43 @@ class OfferResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $packageDitals =  $this->packageDetail;
+        $offerDitals =  $this->OfferDetail;
 
         $offerbale = [];
         $totalAfterPrice = 0; // To calculate the total afterPrice
         $receiver = null;
-        foreach($packageDitals as $packageDital ){
-            $afterPrice = $packageDital->offerable['after_price'] ?? 0; // Ensure you're accessing the right key for afterPrice
+        foreach($offerDitals as $offerDital ){
+            $afterPrice = $offerDital->offerable['after_price'] ?? 0; // Ensure you're accessing the right key for afterPrice
             $totalAfterPrice += $afterPrice;
 
              // Capture receiver details from the first package only
             if (!$receiver) {
                 $receiver = [
                     // get data form user model
-                        'email'         => $packageDital->offerable->radiology['email'] ?? $packageDital->offerable->lab['email'] ?? null,
-                        'phone'         => $packageDital->offerable->radiology['phone'] ?? $packageDital->offerable->lab['phone'] ?? null,
+                        'email'         => $offerDital->offerable->radiology['email'] ?? $offerDital->offerable->lab['email'] ?? null,
+                        'phone'         => $offerDital->offerable->radiology['phone'] ?? $offerDital->offerable->lab['phone'] ?? null,
                     // get data from function readiology or lab in user more details
-                        'name'          => $packageDital->offerable->radiology->radiologyDetail['name']        ??$packageDital->offerable->lab->labDetail['name']         ?? null,
-                        'country'       => $packageDital->offerable->radiology->radiologyDetail['country']     ??$packageDital->offerable->lab->labDetail['country']      ?? null,
-                        'city'          => $packageDital->offerable->radiology->radiologyDetail['city']        ??$packageDital->offerable->lab->labDetail['city']         ?? null,
-                        'state'         => $packageDital->offerable->radiology->radiologyDetail['state']       ??$packageDital->offerable->lab->labDetail['state']        ?? null,
-                        'street'        => $packageDital->offerable->radiology->radiologyDetail['street']      ??$packageDital->offerable->lab->labDetail['street']       ?? null,
-                        'post_code'     => $packageDital->offerable->radiology->radiologyDetail['post_code']   ??$packageDital->offerable->lab->labDetail['post_code']    ?? null,
-                        'description'   => $packageDital->offerable->radiology->radiologyDetail['description'] ??$packageDital->offerable->lab->labDetail['description']  ?? null,
+                        'name'          => $offerDital->offerable->radiology->radiologyDetail['name']        ??$offerDital->offerable->lab->labDetail['name']         ?? null,
+                        'country'       => $offerDital->offerable->radiology->radiologyDetail['country']     ??$offerDital->offerable->lab->labDetail['country']      ?? null,
+                        'city'          => $offerDital->offerable->radiology->radiologyDetail['city']        ??$offerDital->offerable->lab->labDetail['city']         ?? null,
+                        'state'         => $offerDital->offerable->radiology->radiologyDetail['state']       ??$offerDital->offerable->lab->labDetail['state']        ?? null,
+                        'street'        => $offerDital->offerable->radiology->radiologyDetail['street']      ??$offerDital->offerable->lab->labDetail['street']       ?? null,
+                        'post_code'     => $offerDital->offerable->radiology->radiologyDetail['post_code']   ??$offerDital->offerable->lab->labDetail['post_code']    ?? null,
+                        'description'   => $offerDital->offerable->radiology->radiologyDetail['description'] ??$offerDital->offerable->lab->labDetail['description']  ?? null,
                 ];
             }
 
             $offerbale[] =  [
                 // get labtest or radiologyXray with morph function
-               'contract_price'  => $packageDital->offerable['contract_price'] ?? null,
-               'beforePrice'     => $packageDital->offerable['contract_price'] ?? null,
-               'afterPrice'      => $packageDital->offerable['contract_price'] ?? null,
-               'contract_price'  => $packageDital->offerable['contract_price'] ?? null,
+               'contract_price'  => $offerDital->offerable['contract_price'] ?? null,
+               'beforePrice'     => $offerDital->offerable['before_price'] ?? null,
+               'afterPrice'      => $offerDital->offerable['after_price'] ?? null,
+               'offer_price'     => $offerDital->offerable['offer_price'] ?? null,
                 //  get data xray or test
-               'num_code'           => $packageDital->offerable->xRay['num_code'] ??  $packageDital->offerable->test['num_code'] ?? null,
-               'code'               => $packageDital->offerable->xRay['code']     ??  $packageDital->offerable->test['code'] ?? null,
-               'name_en'            => $packageDital->offerable->xRay['name_en']  ??  $packageDital->offerable->test['name_en'] ?? null,
-               'name_ar'            => $packageDital->offerable->xRay['name_ar']  ??  $packageDital->packageable->test['name_ar'] ?? null,
+               'num_code'           => $offerDital->offerable->xRay['num_code'] ??  $offerDital->offerable->test['num_code'] ?? null,
+               'code'               => $offerDital->offerable->xRay['code']     ??  $offerDital->offerable->test['code'] ?? null,
+               'name_en'            => $offerDital->offerable->xRay['name_en']  ??  $offerDital->offerable->test['name_en'] ?? null,
+               'name_ar'            => $offerDital->offerable->xRay['name_ar']  ??  $packageDital->packageable->test['name_ar'] ?? null,
 
             ];
         }

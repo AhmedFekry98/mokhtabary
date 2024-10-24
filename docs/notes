@@ -14,6 +14,8 @@ make  user resoucre for branches
 - check all service they when make create multi table  use DB::belongto
 - makeonly admin can see all data
 
+-- family
+-- add in register role
 
 -- orders
 -- make meddileware to check the family is this user auth
