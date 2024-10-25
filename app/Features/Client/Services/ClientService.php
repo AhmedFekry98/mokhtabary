@@ -18,7 +18,7 @@ class ClientService
         try {
             $clients =  self::$model::whereHas('roles', function ($query)  {
                 $query->where('name','client');
-            })->get();
+            })->paginate(10);
 
             return $clients;
         } catch (\Exception $e) {

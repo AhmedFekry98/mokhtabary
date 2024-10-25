@@ -31,7 +31,9 @@ class TestController extends Controller
     public function index()
     {
         $result = $this->testService->getTests();
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             TestCollection::make($result),
             "Success api call"
@@ -44,7 +46,9 @@ class TestController extends Controller
     public function store(StTestRequest $request)
     {
         $result = $this->testService->storeTest(TDOFacade::make($request));
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             $result,
             "Success api call"
@@ -57,7 +61,9 @@ class TestController extends Controller
     public function show(string $id)
     {
         $result = $this->testService->getTestById($id);
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             $result,
             "Success api call"
@@ -70,7 +76,9 @@ class TestController extends Controller
     public function update(UpTestRequest $request, string $id)
     {
         $result = $this->testService->updateTestById($id,TDOFacade::make($request));
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             $result,
             "Success api call"
@@ -83,7 +91,9 @@ class TestController extends Controller
     public function destroy(string $id)
     {
         $result = $this->testService->deleteTestById($id);
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             $result,
             "Success api call"

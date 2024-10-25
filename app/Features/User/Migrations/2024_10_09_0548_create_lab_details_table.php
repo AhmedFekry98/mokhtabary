@@ -16,11 +16,10 @@ return new class extends Migration
             $table->unsignedInteger('lab_id');
             $table->unsignedInteger('parent_id')->nullable();
             $table->string('name');
-            $table->string('country');
-            $table->string('city');
-            $table->string('state');
+            $table->unsignedInteger('country_id');
+            $table->unsignedInteger('city_id');
+            $table->unsignedInteger('governorate_id');
             $table->string('street');
-            $table->string('post_code');
             $table->string('description');
             $table->timestamps();
         });

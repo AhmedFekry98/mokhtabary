@@ -29,15 +29,15 @@ Route::prefix("radiologies")->group(function() {
     // craete in user api
       Route::get('/', [RadiologyController::class , 'index']);
       Route::get('/{id}', [RadiologyController::class , 'show']);
-      Route::post('/{id}', [RadiologyController::class , 'update']);
-      Route::delete('/{id}', [RadiologyController::class , 'destroy']);
+      Route::post('/{id}', [RadiologyController::class , 'update'])->middleware(['auth:sanctum']);
+      Route::delete('/{id}', [RadiologyController::class , 'destroy'])->middleware(['auth:sanctum']);
 
   });
 
   Route::prefix("radiologies-branches")->group(function() {
       // craete in user api
       Route::get('/{id}', [RadiologyBranchController::class , 'show']);
-      Route::put('/{id}', [RadiologyBranchController::class , 'update']);
-      Route::delete('/{id}', [RadiologyBranchController::class , 'destroy']);
+      Route::put('/{id}', [RadiologyBranchController::class , 'update'])->middleware(['auth:sanctum']);
+      Route::delete('/{id}', [RadiologyBranchController::class , 'destroy'])->middleware(['auth:sanctum']);
 
   });

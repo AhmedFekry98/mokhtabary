@@ -18,7 +18,7 @@ class LabService
         try {
             $labs = self::$model::whereHas('roles', function ($query)  {
                             $query->where('name','lab');
-                        })->get();
+                        })->paginate(10);
             return $labs;
 
         } catch (\Exception $e) {
@@ -50,20 +50,20 @@ class LabService
             $updateData = collect(
                 $tdo->all(true)
             )->except([
-                'logo'
+                'img'
             ])->toArray();
-
             $lab =  $this->getLabById($labId);
             if (is_string($lab)) return $lab;
 
-            $lab->update($updateData);
 
+            $lab->update($updateData);
+            // dd($lab);
             $lab->labDetail()->update($updateData);
 
             // update logo lab
-            $logo = $tdo->logo;
-            if($logo){
-                $lab->addMedia($logo)
+            $img = $tdo->img;
+            if($img){
+                $lab->addMedia($img)
                 ->toMediaCollection('users');
             }
 

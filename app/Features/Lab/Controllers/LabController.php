@@ -4,6 +4,7 @@ namespace App\Features\Lab\Controllers;
 
 use App\Features\Lab\Requests\UpLabRequest;
 use App\Features\Lab\Services\LabService;
+use App\Features\Lab\Transformers\LabCollection;
 use App\Features\Lab\Transformers\LabResource;
 use Graphicode\Standard\Facades\TDOFacade;
 use Graphicode\Standard\Traits\ApiResponses;
@@ -28,8 +29,11 @@ class LabController extends Controller
     public function index()
     {
         $result = $this->labService->getLabs();
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
-            LabResource::collection($result),
+            LabCollection::make($result),
             "Success api call"
         );
     }
@@ -40,6 +44,11 @@ class LabController extends Controller
     public function show(string $id)
     {
         $result = $this->labService->getLabById($id);
+
+        if (is_string($result)) {
+            return $this->badResponse($result);
+        }
+
         return $this->okResponse(
             LabResource::make($result),
             "Success api call"
@@ -52,6 +61,9 @@ class LabController extends Controller
     public function update(UpLabRequest $request, string $id)
     {
         $result = $this->labService->updateLabById($id,TDOFacade::make($request));
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             LabResource::make($result),
             "Success api call"
@@ -64,6 +76,10 @@ class LabController extends Controller
     public function destroy(string $id)
     {
         $result = $this->labService->deleteLabById($id);
+
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             LabResource::make($result),
             "Success api call"

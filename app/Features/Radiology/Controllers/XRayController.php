@@ -29,6 +29,9 @@ class XRayController extends Controller
     public function index()
     {
         $result = $this->xRayService->getXRays();
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             XrayCollection::make($result) ,
             "Success api call"
@@ -41,6 +44,9 @@ class XRayController extends Controller
     public function store(StxRayRequest $request)
     {
         $result = $this->xRayService->storeXRay(TDOFacade::make($request));
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             $result,
             "Success api call"
@@ -53,6 +59,9 @@ class XRayController extends Controller
     public function show(string $id)
     {
         $result = $this->xRayService->getXRayById($id);
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             $result,
             "Success api call"
@@ -65,6 +74,9 @@ class XRayController extends Controller
     public function update(UpxRayRequest $request, string $id)
     {
         $result = $this->xRayService->updateXRayById($id,TDOFacade::make($request));
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             $result,
             "Success api call"
@@ -77,6 +89,9 @@ class XRayController extends Controller
     public function destroy(string $id)
     {
         $result = $this->xRayService->deleteXRayById($id);
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             $result,
             "Success api call"

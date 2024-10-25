@@ -23,11 +23,10 @@ class UpRadiologyBranchRequest extends FormRequest
     {
         return [
             "name"           => ['nullable','string'],
-            "country"        => ['nullable','string'],
-            "city"           => ['nullable','string'],
-            "state"          => ['nullable','string'],
+            'country_id'        => ['nullable','integer','exists:countries,id'],
+            'city_id'           => ['nullable','integer','exists:cities,id'],
+            'governorate_id'    => ['nullable','integer','exists:governorates,id'],
             "street"         => ['nullable','string'],
-            "post_code"      => ['nullable','string'],
             "description"    => ['nullable','string'],
         ];
     }

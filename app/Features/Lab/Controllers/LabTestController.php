@@ -29,7 +29,9 @@ class LabTestController extends Controller
     public function index($labId)
     {
         $result = $this->labTestService->getLabTests($labId);
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             LabTestCollection::make($result['tests'])->additional(['lab_info' => $result['lab_info']]), // Pass lab info as additional data
             "Success api call"
@@ -42,7 +44,9 @@ class LabTestController extends Controller
     public function UpdateOrCreate(UOCLabTestRequest $request)
     {
         $result = $this->labTestService->updateOrCreateLabTest(TDOFacade::make($request));
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             LabTestResource::make($result),
             "Success api call"
@@ -54,16 +58,18 @@ class LabTestController extends Controller
         */
     public function show(string $id)
     {
-        
-        $result = $this->labTestService->getLabTestById($id);
 
+        $result = $this->labTestService->getLabTestById($id);
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             LabTestResource::make($result),
             "Success api call"
         );
     }
 
- 
+
 
 
 }

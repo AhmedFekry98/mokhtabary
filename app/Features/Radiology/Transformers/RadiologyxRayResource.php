@@ -14,34 +14,35 @@ class RadiologyxRayResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // return  $request->toArray();
-        // dd($request);
+
         return array_merge([
+            // radiology details
+                   "radiology_info" => [
+                       'radiology_id'      => $this->radiology_id,
+                       'name'              => $this->radiology->radiologyDetail->name,
+                       'country_ifo'       => $this->radiology->radiologyDetail->country()->first(['id','name_ar','name_en']),
+                       'governorate'       => $this->radiology->radiologyDetail->governorate()->first(['id','name_ar','name_en']),
+                       'city'              => $this->radiology->radiologyDetail->city()->first(['id','name_ar','name_en']),
+                       'street'            => $this->radiology->radiologyDetail->street,
+                       'description'       => $this->radiology->radiologyDetail->description,
+                   ],
+               // xray details
+                   "xray_info" => [
+                       'xray_id'           => $this->xray_id,
+                       'num_code'          => $this->xray->num_code,
+                       'code'              => $this->xray->code,
+                       'name_en'           => $this->xray->name_en,
+                       'name_ar'           => $this->xray->name_ar,
+                   ],
 
-            'id'                => $this->id,
-            'contract_price'    => $this->id,
-            'before_price'      => $this->id,
-            'after_price'       => $this->id,
-            'offer_price'       => $this->id,
-            // xray details
-            'x_ray_id'          => $this->x_ray_id,
-            'num_code'          => $this->xRay->num_code,
-            'code'              => $this->xRay->code,
-            'name_en'           => $this->xRay->name_en,
-            'name_ar'           => $this->xRay->name_ar,
-            // rediology details
-            'radiology_id'      => $this->radiology_id ?? null,
-            'name'              => $this->radiology->radiologyDetail->name,
-            'country'           => $this->radiology->radiologyDetail->country,
-            'city'              => $this->radiology->radiologyDetail->city,
-            'state'             => $this->radiology->radiologyDetail->state,
-            'street'            => $this->radiology->radiologyDetail->street,
-            'post_code'         => $this->radiology->radiologyDetail->post_code,
-            'description'       => $this->radiology->radiologyDetail->description,
-
-            'created_at'        => $this->created_at,
-            'updated_at'        => $this->updated_at,
-
-        ]);
+                   'id'                     => $this->id,
+                   'contract_price'         => $this->contract_price,
+                   'before_price'           => $this->before_price,
+                   'after_price'            => $this->after_price,
+                   'offer_price'            => $this->offer_price,
+                   'created_at'             => $this->created_at,
+                   'updated_at'             => $this->updated_at,
+               ]);
     }
+
 }

@@ -16,16 +16,17 @@ class FamilyResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'            => $this->id ?? null,
-            'email'         => $this->email ?? null,
-            'phone'         => $this->phone ?? null,
-            'name'          => $this->name ?? null,
-            'country'       => $this->country ?? null,
-            'city'          => $this->city ?? null,
-            'state'         => $this->state ?? null,
-            'street'        => $this->street ?? null,
-            'post_code'     => $this->post_code ?? null,
-            'img'           => optional(User::find($this->client_id ?? null))->getFirstMediaUrl('users') ?? null,
+            'id'                => $this->id,
+            'email'             => $this->email,
+            'phone'             => $this->phone,
+            'name'              => $this->name,
+            'country_info'      => $this->country()->first(['id','name_ar','name_en']),
+            'city_info'         => $this->city()->first(['id','name_ar','name_en']),
+            'governorate_info'  => $this->governorate()->first(['id','name_ar','name_en']),
+            'street'            => $this->street,
+            'img'               => $this->getFirstMediaUrl('users') ?? null,
+            'created_at'        => $this->created_at,
+            'updated_at'        => $this->updated_at,
         ];
     }
 }

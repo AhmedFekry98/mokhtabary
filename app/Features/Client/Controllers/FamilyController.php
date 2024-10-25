@@ -26,7 +26,9 @@ class FamilyController extends Controller
     public function show( string $id)
     {
         $result = $this->familyService->getFamilyById($id);
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             FamilyResource::make($result),
             "Success api call"
@@ -39,7 +41,9 @@ class FamilyController extends Controller
     public function update(UpFamilyRequest $request, string $id)
     {
         $result = $this->familyService->updateFamilyById($id,TDOFacade::make($request));
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             FamilyResource::make($result),
             "Success api call"
@@ -53,7 +57,9 @@ class FamilyController extends Controller
     public function destroy(string $id)
     {
         $result = $this->familyService->deleteFamilyById($id);
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             FamilyResource::make($result),
             "Success api call"

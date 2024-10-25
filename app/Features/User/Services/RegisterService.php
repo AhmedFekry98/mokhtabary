@@ -48,7 +48,7 @@ class RegisterService
             $credential = self::$model::create($craeteData);
             $credential->clientDetail()->create($craeteData);
             $credential->assignRole($guard);
-            $img = $craeteData['img'];
+            $img = $craeteData['img'] ?? null;
             if($img){
                 $credential->addMedia($img)->toMediaCollection('users');
             }
@@ -65,10 +65,17 @@ class RegisterService
     {
         try{
             DB::beginTransaction();
+
+            // it send lab id and get it to find fron users table and get id from labDetails to make self relation by perant_id
+            if($guard == 'labBranch'){
+                $labDetailId = self::$model::find($craeteData['parent_id'])->labDetail()->first()->id ?? null;
+                $craeteData['parent_id'] =$labDetailId;
+            }
+
             $credential = self::$model::create($craeteData);
             $credential->labDetail()->create($craeteData);
             $credential->assignRole($guard);
-            $img = $craeteData['img'];
+            $img = $craeteData['img']??null;
             if($img){
                 $credential->addMedia($img)->toMediaCollection('users');
             }
@@ -85,10 +92,15 @@ class RegisterService
     {
         try{
             DB::beginTransaction();
+            // it send radiology id and get it to find fron users table and get id from radiologyDetail to make self relation by perant_id
+            if($guard == 'radiologyBranch'){
+                $labDetailId = self::$model::find($craeteData['parent_id'])->radiologyDetail()->first()->id ?? null;
+                $craeteData['parent_id'] =$labDetailId;
+            }
             $credential = self::$model::create($craeteData);
             $credential->radiologyDetail()->create($craeteData);
             $credential->assignRole($guard);
-            $img = $craeteData['img'];
+            $img = $craeteData['img'] ??null;
             if($img){
                 $credential->addMedia($img)->toMediaCollection('users');
             }
@@ -104,7 +116,7 @@ class RegisterService
     {
         $craeteData['client_id'] = auth('sanctum')->user()->id;
         $credential = self::$modelFamilyDetail::create($craeteData);
-        $img = $craeteData['img'];
+        $img = $craeteData['img']??null;
         if($img){
             $credential->addMedia($img)->toMediaCollection('users');
         }

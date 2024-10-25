@@ -22,11 +22,12 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        
+
         $data = [
-            'email'     => "admin@example.com",  
-            'phone'     => "01012182626", 
-            'password'  => Hash::make('password'), 
+            'email'              => "admin@example.com",
+            'phone'              => "01012182626",
+            'password'           => Hash::make('password'),
+            'phone_verified_at'  =>now(),
         ];
 
         $role       = ['user_id' => 1 , 'role_id' => 1];

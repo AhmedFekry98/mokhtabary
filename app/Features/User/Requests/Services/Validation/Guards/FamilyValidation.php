@@ -14,12 +14,13 @@ class FamilyValidation implements GuardValidationStrategy
             'email'          => ['required', 'email','unique:family_details,email'],
             'phone'          => ['required', 'string','unique:family_details,phone'],
             'name'           => ['required', 'string'],
-            'country'        => ['required', 'string'],
-            'city'           => ['required', 'string'],
-            'state'          => ['required', 'string'],
+
+            'country_id'        => ['required', 'integer','exists:countries,id'],
+            'city_id'           => ['required', 'integer','exists:cities,id'],
+            'governorate_id'    => ['required', 'integer','exists:governorates,id'],
+
             'street'         => ['nullable', 'string'],
-            'post_code'      => ['nullable', 'string'],
-            'imag'           => ['nullable','image']
+            'img'           => ['nullable','image']
         ];
     }
 }

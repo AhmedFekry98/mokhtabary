@@ -15,19 +15,36 @@ class RadiologyResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'            => $this->id ?? null,
-            'lab_detail_id' => $this->radiologyDetail->id ?? null,
-            'email'         => $this->email ?? null,
-            'phone'         => $this->phone?? null,
-            'name'          => $this->radiologyDetail->name?? null,
-            'country'       => $this->radiologyDetail->country?? null,
-            'city'          => $this->radiologyDetail->city?? null,
-            'state'         => $this->radiologyDetail->state?? null,
-            'street'        => $this->radiologyDetail->street?? null,
-            'post_code'     => $this->radiologyDetail->post_code?? null,
-            'description'   => $this->radiologyDetail->description?? null,
-            'img'           => $this->getFirstMediaUrl('users') ?: null,
-            'branches'       => $this->radiologyDetail->children ?? null,
+            'id'                => $this->id,    // module user
+            'email'             => $this->email, // module user
+            'phone'             => $this->phone, // module user
+            'name'              => $this->radiologyDetail->name, // model user function radiologyDetail
+            'country_info'      => $this->radiologyDetail->country()->first(['id','name_ar','name_en']), // model user function radiologyDetail
+            'city_info'         => $this->radiologyDetail->city()->first(['id','name_ar','name_en']), // model user function radiologyDetail
+            'governorate_info'  => $this->radiologyDetail->governorate()->first(['id','name_ar','name_en']), // model user function radiologyDetail
+            'street'            => $this->radiologyDetail->street, // model user function radiologyDetail
+            'description'       => $this->radiologyDetail->description, // model user function radiologyDetail
+            'created_at'        => $this->created_at,
+            'updated_at'        => $this->updated_at,
+            'phone_verified_at' => now(),
+            'role'              => $this->role->name,
+            'img'               => $this->getFirstMediaUrl('users') ?: null,
+            'branches'          => $this->radiologyDetail->children->map(function ($branch){
+                return [
+                    "id"                 =>$branch->id,
+                    "branch_id"          =>$branch->radiology_id, // this id refrance id in model user  (id branch in table users)
+                    "parent_id"          =>$branch->parent_id,
+                    "name"               =>$branch->name,
+                    'country_info'       => $branch->country()->first(['id','name_ar','name_en']), // model user function radiologyDetail
+                    'city_info'          => $branch->city()->first(['id','name_ar','name_en']), // model user function radiologyDetail
+                    'governorate_info'   => $branch->governorate()->first(['id','name_ar','name_en']), // model user function radiologyDetail
+                    "street"             =>$branch->street,
+                    "description"        =>$branch->description,
+                    "created_at"         =>$branch->created_at,
+                    "updated_at"         =>$branch->updated_at,
+                ];
+            }) ?? null,
         ];
+
     }
 }

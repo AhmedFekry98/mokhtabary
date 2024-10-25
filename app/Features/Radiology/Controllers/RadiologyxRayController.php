@@ -22,45 +22,52 @@ class RadiologyxRayController extends Controller
         public function __construct(
             private RadiologyxRayService $radiologyxRayService
         ) {}
-    
+
         /**
             * Display a listing of the resource.
             */
         public function index($labId)
         {
             $result = $this->radiologyxRayService->getRadiologyXrays($labId);
-    
+
+            if(is_string($result)){
+                return $this->badResponse($result);
+            }
             return $this->okResponse(
                 RadiologyxRayCollection::make($result['xray'])->additional(['radiology_info' => $result['radiology_info']]), // Pass lab info as additional data
                 "Success api call"
             );
         }
-    
+
         /**
             * Store a newly created resource in storage.
             */
         public function UpdateOrCreate(UOCRadiologyxRayRequest $request)
         {
             $result = $this->radiologyxRayService->updateOrCreateRadiologyXray(TDOFacade::make($request));
-    
+            if(is_string($result)){
+                return $this->badResponse($result);
+            }
             return $this->okResponse(
                 RadiologyxRayResource::make($result),
                 "Success api call"
             );
         }
-    
+
         /**
             * Display the specified resource.
             */
         public function show(string $id)
         {
-            
+
             $result = $this->radiologyxRayService->getRadiologyXrayById($id);
-    
+            if(is_string($result)){
+                return $this->badResponse($result);
+            }
             return $this->okResponse(
                 RadiologyxRayResource::make($result),
                 "Success api call"
             );
         }
-    
+
 }

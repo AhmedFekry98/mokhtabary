@@ -19,7 +19,7 @@ Route::prefix("tests")->group(function() {
 Route::prefix("lab-tests")->group(function() {
 
     Route::get('/{labId}/all', [LabTestController::class , 'index']);
-    Route::post('/', [LabTestController::class , 'UpdateOrCreate']);
+    Route::post('/', [LabTestController::class , 'UpdateOrCreate'])->middleware(['auth:sanctum']);
     Route::get('/{id}', [LabTestController::class , 'show']);
 });
 
@@ -29,15 +29,15 @@ Route::prefix("labs")->group(function() {
   // craete in user api
     Route::get('/', [LabController::class , 'index']);
     Route::get('/{id}', [LabController::class , 'show']);
-    Route::post('/{id}', [LabController::class , 'update']);
-    Route::delete('/{id}', [LabController::class , 'destroy']);
+    Route::post('/{id}', [LabController::class , 'update'])->middleware(['auth:sanctum']);
+    Route::delete('/{id}', [LabController::class , 'destroy'])->middleware(['auth:sanctum']);
 
 });
 
 Route::prefix("labs-branches")->group(function() {
     // craete in user api
     Route::get('/{id}', [LabBranchController::class , 'show']);
-    Route::put('/{id}', [LabBranchController::class , 'update']);
-    Route::delete('/{id}', [LabBranchController::class , 'destroy']);
+    Route::put('/{id}', [LabBranchController::class , 'update'])->middleware(['auth:sanctum']);
+    Route::delete('/{id}', [LabBranchController::class , 'destroy'])->middleware(['auth:sanctum']);
 
 });

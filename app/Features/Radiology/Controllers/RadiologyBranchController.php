@@ -30,7 +30,9 @@ class RadiologyBranchController extends Controller
     public function show(string $id)
     {
         $result = $this->radiologyBranchService->getRadiologyBranchById($id);
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             RadiologyBranchResource::make($result),
             "Success api call"
@@ -43,7 +45,9 @@ class RadiologyBranchController extends Controller
     public function update(UpRadiologyBranchRequest $request, string $id)
     {
         $result = $this->radiologyBranchService->updateRadiologyBranchById($id,TDOFacade::make($request));
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             RadiologyBranchResource::make($result),
             "Success api call"
@@ -56,7 +60,9 @@ class RadiologyBranchController extends Controller
     public function destroy(string $id)
     {
         $result = $this->radiologyBranchService->deleteRadiologyBranchById($id);
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             RadiologyBranchResource::make($result),
             "Success api call"

@@ -4,6 +4,7 @@ namespace App\Features\Client\Controllers;
 
 use App\Features\Client\Requests\UpClientrequest;
 use App\Features\Client\Services\ClientService;
+use App\Features\Client\Transformers\ClientCollection;
 use App\Features\Client\Transformers\ClientResource;
 use Graphicode\Standard\Facades\TDOFacade;
 use Graphicode\Standard\Traits\ApiResponses;
@@ -28,8 +29,11 @@ class ClientController extends Controller
     public function index()
     {
         $result = $this->clientService->getClients();
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
-           ClientResource::collection($result),
+           ClientCollection::make($result),
             "Success api call"
         );
     }
@@ -40,6 +44,9 @@ class ClientController extends Controller
     public function show(string $id)
     {
         $result = $this->clientService->getClientById($id);
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             ClientResource::make($result),
             "Success api call"
@@ -52,6 +59,9 @@ class ClientController extends Controller
     public function update(UpClientrequest $request, string $id)
     {
         $result = $this->clientService->updateClientById($id,TDOFacade::make($request));
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             ClientResource::make($result),
             "Success api call"
@@ -64,6 +74,9 @@ class ClientController extends Controller
     public function destroy(string $id)
     {
         $result = $this->clientService->deleteClientById($id);
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             ClientResource::make($result),
             "Success api call"

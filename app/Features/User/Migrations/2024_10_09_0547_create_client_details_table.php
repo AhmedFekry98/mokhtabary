@@ -15,11 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('client_id');
             $table->string('name');
-            $table->string('country');
-            $table->string('city');
-            $table->string('state');
-            $table->string('street');
-            $table->string('post_code');
+            $table->unsignedInteger('country_id');
+            $table->unsignedInteger('city_id');
+            $table->unsignedInteger('governorate_id');
+            $table->string('street')->nullable();
             $table->timestamps();
         });
     }

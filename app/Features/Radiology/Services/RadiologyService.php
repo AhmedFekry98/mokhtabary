@@ -18,7 +18,7 @@ class RadiologyService
         try {
             $radiologies =  self::$model::whereHas('roles', function ($query)  {
                 $query->where('name','radiology');
-            })->get();;
+            })->paginate(10);
 
             return $radiologies;
         } catch (\Exception $e) {
@@ -52,7 +52,7 @@ class RadiologyService
             $updateData = collect(
                 $tdo->all(true)
             )->except([
-                'logo'
+                'img'
             ])->toArray();
 
             // manobolate the data before update?
@@ -64,9 +64,9 @@ class RadiologyService
             $radiology->radiologyDetail()->update($updateData);
 
             // update logo lab
-            $logo = $tdo->logo;
-            if($logo){
-                $radiology->addMedia($logo)
+            $img = $tdo->img;
+            if($img){
+                $radiology->addMedia($img)
                 ->toMediaCollection('users');
             }
             return $radiology;

@@ -32,7 +32,7 @@ class FamilyService
             $updateData = collect(
                 $tdo->all(true)
             )->except([
-                // ignore any key?
+               'img'
             ])->toArray();
 
             // manobolate the data before update?
@@ -41,7 +41,10 @@ class FamilyService
             if (is_string($family)) return $family;
             $family->update($updateData);
 
-            // write any logic after update?
+            $img = $tdo->img;
+            if($img){
+                $family->addMedia($img)->toMediaCollection('users');
+            }
 
             return $family;
         } catch (\Exception $e) {
@@ -61,7 +64,7 @@ class FamilyService
             if (is_string($family)) return $family;
             $deleted = $family->delete();
 
-            return $deleted;
+            return $family;
         } catch (\Exception $e) {
             return $e->getMessage();
         }

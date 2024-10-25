@@ -4,6 +4,7 @@ namespace App\Features\Radiology\Controllers;
 
 use App\Features\Radiology\Requests\UpRadiologyRequest;
 use App\Features\Radiology\Services\RadiologyService;
+use App\Features\Radiology\Transformers\RadiologyCollection;
 use App\Features\Radiology\Transformers\RadiologyResource;
 use Graphicode\Standard\Facades\TDOFacade;
 use Graphicode\Standard\Traits\ApiResponses;
@@ -28,9 +29,11 @@ class RadiologyController extends Controller
     public function index()
     {
         $result = $this->radiologyService->getRadiologies();
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
-            RadiologyResource::collection($result),
+            RadiologyCollection::make($result),
             "Success api call"
         );
     }
@@ -42,6 +45,9 @@ class RadiologyController extends Controller
     public function show(string $id)
     {
         $result = $this->radiologyService->getRadiologyById($id);
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             RadiologyResource::make($result),
             "Success api call"
@@ -54,7 +60,9 @@ class RadiologyController extends Controller
     public function update(UpRadiologyRequest $request, string $id)
     {
         $result = $this->radiologyService->updateRadiologyById($id,TDOFacade::make($request));
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             RadiologyResource::make($result),
             "Success api call"
@@ -67,7 +75,9 @@ class RadiologyController extends Controller
     public function destroy(string $id)
     {
         $result = $this->radiologyService->deleteRadiologyById($id);
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             RadiologyResource::make($result),
             "Success api call"

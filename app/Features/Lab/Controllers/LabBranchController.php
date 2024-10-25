@@ -29,7 +29,9 @@ class LabBranchController extends Controller
     public function show(string $id)
     {
         $result = $this->labBranchService->getLabBranchById($id);
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             LabBranchResource::make($result),
             "Success api call"
@@ -42,7 +44,9 @@ class LabBranchController extends Controller
     public function update(UpLabBranchRequest $request, string $id)
     {
         $result = $this->labBranchService->updateLabById($id,TDOFacade::make($request));
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             LabBranchResource::make($result),
             "Success api call"
@@ -55,7 +59,9 @@ class LabBranchController extends Controller
     public function destroy(string $id)
     {
         $result = $this->labBranchService->deleteLabBranchById($id);
-
+        if(is_string($result)){
+            return $this->badResponse($result);
+        }
         return $this->okResponse(
             LabBranchResource::make($result),
             "Success api call"
