@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('website')->nullable();
             $table->string('email_address')->nullable();
             $table->text('address')->nullable();
+            $table->text('about_us')->nullable();
             $table->timestamps();
         });
 
@@ -43,8 +44,9 @@ return new class extends Migration
             "website"               => "https://www.example.com",
             "email_address"         => "email@example.com",
             "address"               => "streetxxxxxxxxxx",
+            "about_us"               => "Welcome to Mokhtabary",
         ];
-        
+
         DB::table('basic_informations')->insert($data);
     }
 

@@ -35,6 +35,7 @@ class UpBasicInformationRquest extends FormRequest
             'website'        => ['nullable','url','max:255'],
             'email_address'  => ['nullable','email','max:255'],
             'address'        => ['nullable','string'],
+            'about_us'        => ['nullable','string'],
         ];
     }
 }

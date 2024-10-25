@@ -31,6 +31,19 @@ class UserResource extends JsonResource
             ];
         }
 
+        if($this->role->name == "admin"){
+            return[
+                'id'                => $this->id,    // module user
+                'email'             => $this->email, // module user
+                'phone'             => $this->phone, // module user
+                'created_at'        => $this->created_at,
+                'updated_at'        => $this->updated_at,
+                'img'               => $this->getFirstMediaUrl('users') ?: null,
+                'phone_verified_at' => now(),
+                'role'              => $this->role->name,
+            ];
+        }
+
         if($this->role->name == "lab" || $this->role->name == "labBranch"){
             return[
                 'id'                => $this->id,    // module user

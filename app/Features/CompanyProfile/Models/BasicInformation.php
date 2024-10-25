@@ -14,19 +14,20 @@ class BasicInformation extends Model implements HasMedia
     protected $table = 'basic_informations';
 
     protected $fillable = [
-        'logo', 
-        'phone_number', 
-        'mobile_number', 
-        'whatsapp', 
-        'facebook', 
-        'instagram', 
-        'x', 
-        'tiktok', 
-        'snapchat', 
-        'linkedin', 
-        'website', 
-        'email_address', 
-        'address'
+        'logo',
+        'phone_number',
+        'mobile_number',
+        'whatsapp',
+        'facebook',
+        'instagram',
+        'x',
+        'tiktok',
+        'snapchat',
+        'linkedin',
+        'website',
+        'email_address',
+        'address',
+        'about_us',
     ];
 
     public function registerMediaCollections(): void
