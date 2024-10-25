@@ -30,3 +30,6 @@ Route::prefix('auth')->group(function () {
     Route::post('reset-password',   [ResetPasswordController::class, 'reset']);
 });
 
+
+// Route::get('/role', fn () => 'ok')->middleware(['auth:sanctum', 'role:user,clent,admin']);
+
