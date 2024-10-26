@@ -2,6 +2,7 @@
 
 namespace App\Features\Lab\Transformers;
 
+use App\Features\User\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -30,18 +31,21 @@ class LabResource extends JsonResource
             'role'              => $this->role->name,
             'img'               => $this->getFirstMediaUrl('users') ?: null,
             'branches'          => $this->labDetail->children->map(function ($branch){
+                // dd($this->labDetail->children);
                 return [
-                    "id"                 =>$branch->id,
-                    "branch_id"          =>$branch->lab_id, // this id refrance id in model user  (id branch in table users)
-                    "parent_id"          =>$branch->parent_id,
-                    "name"               =>$branch->name,
+                    "id"                 => $branch->id,
+                    "branch_id"          => $branch->lab_id, // this id refrance id in model user  (id branch in table users)
+                    "parent_id"          => $branch->parent_id,
+                    "email"              => $branch->user->email ?? null, // Use the loaded user relationship
+                    "phone"              => $branch->user->phone ?? null, // Use the loaded user relationship
+                    "name"               => $branch->name,
                     'country_info'       => $branch->country()->first(['id','name_ar','name_en']), // model user function labDetail
                     'city_info'          => $branch->city()->first(['id','name_ar','name_en']), // model user function labDetail
                     'governorate_info'   => $branch->governorate()->first(['id','name_ar','name_en']), // model user function labDetail
-                    "street"             =>$branch->street,
-                    "description"        =>$branch->description,
-                    "created_at"         =>$branch->created_at,
-                    "updated_at"         =>$branch->updated_at,
+                    "street"             => $branch->street,
+                    "description"        => $branch->description,
+                    "created_at"         => $branch->created_at,
+                    "updated_at"         => $branch->updated_at,
                 ];
             }) ?? null,
         ];

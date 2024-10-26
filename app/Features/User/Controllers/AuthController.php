@@ -4,6 +4,7 @@ namespace App\Features\User\Controllers;
 
 use App\Features\User\Requests\ChangePasswordRequest;
 use App\Features\User\Requests\LoginRequest;
+use App\Features\User\Requests\UpProfileRequest;
 use App\Features\User\Services\AuthService;
 use App\Features\User\Transformers\UserResource;
 use Graphicode\Standard\Facades\TDOFacade;
@@ -35,7 +36,7 @@ class AuthController extends Controller
         $user  = $result;
         $tokenName = $request->userAgent() . ' - ' . $request->ip();
         $token = $user->createToken($tokenName);
- 
+
 
         return $this->okResponse(
             message: "Authenticate user successfuly.",
@@ -50,7 +51,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        
+
         $result = $this->authService->logout();
 
         return $this->okResponse(
@@ -71,6 +72,23 @@ class AuthController extends Controller
 
     }
 
+    public function profile()
+    {
+        $result =$this->authService->getAuthUser();
+        return $this->okResponse(
+            message: "Changed password successfuly.",
+            data: UserResource::make($result)
+        );
+    }
 
-    
+    public function updateprofile(UpProfileRequest $request)
+    {
+        $result = $this->authService->updateProfile(TDOFacade::make($request));
+
+        return $this->okResponse(
+            message: "Changed password successfuly.",
+            data:UserResource::make($result)
+        );
+    }
+
 }

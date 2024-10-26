@@ -60,7 +60,7 @@ class LabService
             // dd($lab);
             $lab->labDetail()->update($updateData);
 
-            // update logo lab
+            // update img lab
             $img = $tdo->img;
             if($img){
                 $lab->addMedia($img)

@@ -22,12 +22,17 @@ Route::prefix('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
     Route::post('/change-password', [AuthController::class, 'ChangePassword'])->middleware('auth:sanctum');
 
+    Route::get('/profile', [AuthController::class, 'profile'])->middleware('auth:sanctum');
+    Route::post('/profile/update', [AuthController::class, 'updateprofile'])->middleware('auth:sanctum');
+
     Route::post('/verification/send', [VerificationController::class, 'send'])->middleware('auth:sanctum');
     Route::post('/verification/verify/{code}', [VerificationController::class, 'verify'])->middleware('auth:sanctum');
 
     Route::post('forgot-password',  [ResetPasswordController::class, 'forget']);
     Route::post('check-code',        [ResetPasswordController::class, 'checkCode']);
     Route::post('reset-password',   [ResetPasswordController::class, 'reset']);
+
+
 });
 
 

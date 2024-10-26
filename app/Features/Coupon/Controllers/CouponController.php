@@ -5,6 +5,7 @@ namespace App\Features\Coupon\Controllers;
 use App\Features\Coupon\Requests\StCouponRequest;
 use App\Features\Coupon\Requests\UpStatusCouponRequest;
 use App\Features\Coupon\Services\CouponService;
+use App\Features\Coupon\Transformers\CouponResource;
 use Graphicode\Standard\Facades\TDOFacade;
 use Graphicode\Standard\Traits\ApiResponses;
 use Illuminate\Routing\Controller;
@@ -30,7 +31,7 @@ class CouponController extends Controller
         $result = $this->couponService->getCoupons();
 
         return $this->okResponse(
-            $result,
+            CouponResource::collection($result),
             "Success api call"
         );
     }
@@ -82,7 +83,7 @@ class CouponController extends Controller
         return $this->okResponse(
             $result,
             "Success api call"
-        ); 
+        );
     }
 
     public function updateStatusCouponById(string $id , UpStatusCouponRequest $request)
@@ -92,6 +93,6 @@ class CouponController extends Controller
         return $this->okResponse(
             $result,
             "Success api call"
-        ); 
+        );
     }
 }

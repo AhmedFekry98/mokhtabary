@@ -37,6 +37,11 @@ class LabDetail extends Model implements HasMedia
         return $this->hasMany(self::class, 'parent_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'lab_id'); // Assuming 'lab_id' references the User model
+    }
+
     public function country()
     {
         return $this->belongsTo(Country::class,'country_id');

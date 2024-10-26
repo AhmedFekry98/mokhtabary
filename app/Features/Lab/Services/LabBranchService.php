@@ -28,7 +28,7 @@ class LabBranchService
             $updateData = collect(
                 $tdo->all(true)
             )->except([
-                'logo'
+
             ])->toArray();
 
             $labBranch=  $this->getLabBranchById($labBranchId);

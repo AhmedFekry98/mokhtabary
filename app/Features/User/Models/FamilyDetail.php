@@ -25,6 +25,12 @@ class FamilyDetail extends Model implements HasMedia
         'email',
     ];
 
+    protected $role = 'family';
+
+    public function getRoleAttribute()
+    {
+        return $this->role;
+    }
 
     public function country()
     {

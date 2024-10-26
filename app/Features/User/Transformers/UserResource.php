@@ -14,8 +14,9 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
         //  set famile first to get error for role->name
-        if(request('guard') == "family"){ // FamilyDetail request gurad to family not have auth in FamilyDetail model
+        if($this->role == 'family'){ // FamilyDetail request gurad to family not have auth in FamilyDetail model
             return[
                 'id'                => $this->id,    // module FamilyDetail
                 'email'             => $this->email, // module FamilyDetail
@@ -42,9 +43,7 @@ class UserResource extends JsonResource
                 'phone_verified_at' => now(),
                 'role'              => $this->role->name,
             ];
-        }
-
-        if($this->role->name == "lab" || $this->role->name == "labBranch"){
+        }elseif($this->role->name == "lab" || $this->role->name == "labBranch"){
             return[
                 'id'                => $this->id,    // module user
                 'email'             => $this->email, // module user
@@ -61,9 +60,7 @@ class UserResource extends JsonResource
                 'phone_verified_at' => now(),
                 'role'              => $this->role->name,
             ];
-        }
-
-        if($this->role->name == "radiology" || $this->role->name == "radiologyBranch"){
+        }elseif($this->role->name == "radiology" || $this->role->name == "radiologyBranch"){
             return[
                 'id'                => $this->id,    // module user
                 'email'             => $this->email, // module user
@@ -99,11 +96,6 @@ class UserResource extends JsonResource
                 'role'              => $this->role->name,
             ];
         }
-
-
-
-
-
 
     }
 }

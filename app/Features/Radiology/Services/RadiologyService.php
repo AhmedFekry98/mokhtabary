@@ -63,7 +63,7 @@ class RadiologyService
             $radiology->update($updateData);
             $radiology->radiologyDetail()->update($updateData);
 
-            // update logo lab
+            // update img lab
             $img = $tdo->img;
             if($img){
                 $radiology->addMedia($img)

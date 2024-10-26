@@ -34,6 +34,8 @@ class RadiologyResource extends JsonResource
                     "id"                 =>$branch->id,
                     "branch_id"          =>$branch->radiology_id, // this id refrance id in model user  (id branch in table users)
                     "parent_id"          =>$branch->parent_id,
+                    "email"              => $branch->user->email ?? null, // Use the loaded user relationship
+                    "phone"              => $branch->user->phone ?? null, // Use the loaded user relationship
                     "name"               =>$branch->name,
                     'country_info'       => $branch->country()->first(['id','name_ar','name_en']), // model user function radiologyDetail
                     'city_info'          => $branch->city()->first(['id','name_ar','name_en']), // model user function radiologyDetail

@@ -35,6 +35,10 @@ class RadiologyDetail extends Model
         return $this->hasMany(self::class, 'parent_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'radiology_id'); // Assuming 'lab_id' references the User model
+    }
 
     public function country()
     {

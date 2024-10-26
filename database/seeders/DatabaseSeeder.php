@@ -17,6 +17,7 @@ class DatabaseSeeder  extends Seeder
         $this->call(RadiologySeeder::class);
         $this->call(ClientSeeder::class);
         $this->call(SettingSeeder::class);
+        $this->call(DealSeeder::class);
 
     }
 }
