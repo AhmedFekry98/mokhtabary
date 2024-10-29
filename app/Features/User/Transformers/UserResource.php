@@ -15,22 +15,7 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
 
-        //  set famile first to get error for role->name
-        if($this->role == 'family'){ // FamilyDetail request gurad to family not have auth in FamilyDetail model
-            return[
-                'id'                => $this->id,    // module FamilyDetail
-                'email'             => $this->email, // module FamilyDetail
-                'phone'             => $this->phone, // module FamilyDetail
-                'name'              => $this->name, // model FamilyDetail function
-                'country_info'      => $this->country()->first(['id','name_ar','name_en']), // model FamilyDetail function
-                'city_info'         => $this->city()->first(['id','name_ar','name_en']), // model FamilyDetail function
-                'governorate_info'  => $this->governorate()->first(['id','name_ar','name_en']), // model FamilyDetail function
-                'street'            => $this->street, // model FamilyDetail function familyDetail
-                'created_at'        => $this->created_at,
-                'updated_at'        => $this->updated_at,
-                'img'               => $this->getFirstMediaUrl('users') ?: null,
-            ];
-        }
+
 
         if($this->role->name == "admin"){
             return[
@@ -43,7 +28,8 @@ class UserResource extends JsonResource
                 'phone_verified_at' => now(),
                 'role'              => $this->role->name,
             ];
-        }elseif($this->role->name == "lab" || $this->role->name == "labBranch"){
+        }
+        if($this->role->name == "lab" || $this->role->name == "labBranch"){
             return[
                 'id'                => $this->id,    // module user
                 'email'             => $this->email, // module user
@@ -60,7 +46,8 @@ class UserResource extends JsonResource
                 'phone_verified_at' => now(),
                 'role'              => $this->role->name,
             ];
-        }elseif($this->role->name == "radiology" || $this->role->name == "radiologyBranch"){
+        }
+        if($this->role->name == "radiology" || $this->role->name == "radiologyBranch"){
             return[
                 'id'                => $this->id,    // module user
                 'email'             => $this->email, // module user

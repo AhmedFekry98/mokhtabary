@@ -25,11 +25,10 @@ return new class extends Migration
             ['name' => 'client'],
             ['name' => 'lab'],
             ['name' => 'radiology'],
-            ['name' => 'family'],
             ['name' => 'labBranch'],
             ['name' => 'radiologyBranch'],
         ];
-        
+
         // Insert roles into the roles table
         DB::table('roles')->insert($data);
     }

@@ -2,9 +2,6 @@
 
 namespace App\Features\User\Services;
 
-use App\Features\User\Models\FamilyDetail;
-use App\Features\User\Models\LabDetail;
-use App\Features\User\Models\RadiologyDetail;
 use App\Features\User\Models\User;
 use Exception;
 use Graphicode\Standard\TDO\TDO;
@@ -12,8 +9,8 @@ use Illuminate\Support\Facades\DB;
 
 class RegisterService
 {
-    private static $model                   = User::class;
-    private static $modelFamilyDetail       = FamilyDetail::class;
+    private static $model = User::class;
+
 
 
     public function register(TDO $tdo, string $guard)
@@ -31,8 +28,6 @@ class RegisterService
             case 'radiology':
             case 'radiologyBranch':
                 return $this->registerRadiology($craeteData,$guard);
-            case 'family':
-                return $this->registerFamily($craeteData,$guard);
             default:
                 throw new \InvalidArgumentException("Invalid guard type provided");
         }
@@ -112,16 +107,5 @@ class RegisterService
         }
     }
 
-    private function registerFamily(array $craeteData,string $guard)
-    {
-        $craeteData['client_id'] = auth('sanctum')->user()->id;
-        $credential = self::$modelFamilyDetail::create($craeteData);
-        $img = $craeteData['img']??null;
-        if($img){
-            $credential->addMedia($img)->toMediaCollection('users');
-        }
-        // $credential->assignRole($guard);
-        return $credential;
-    }
 
 }

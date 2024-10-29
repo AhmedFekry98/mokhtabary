@@ -2,7 +2,6 @@
 
 namespace App\Features\Order\Models;
 
-use App\Features\User\Models\FamilyDetail;
 use App\Features\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +12,6 @@ class Order extends Model
 
     protected $fillable = [
         'client_id',
-        'family_detail_id',
         'order_type',
         'visit',
         'delivery',
@@ -46,10 +44,6 @@ class Order extends Model
         return $this->belongsTo(User::class , "client_id" );
     }
 
-    public function family()
-    {
-        return $this->belongsTo(FamilyDetail::class , "family_detail_id" );
-    }
 
 
 }

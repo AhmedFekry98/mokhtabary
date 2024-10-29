@@ -24,7 +24,6 @@ class UpOrderRequest extends FormRequest
     {
         return [
             // 'client_id',  // comming from auth
-            // 'family_detail_id'     =>['nullable','integer','exists:family_details,id'], can't make update to add family id
             'order_type'           =>['nullable','in:'. implode(',', Order::$orderTypes)], // can't make update for order type
             'visit'                =>['nullable','boolean'],
             'delivery'             =>['nullable','boolean'],

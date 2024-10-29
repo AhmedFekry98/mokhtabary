@@ -24,7 +24,6 @@ class StOrderRequest extends FormRequest
     {
         return [
             // 'client_id',  // comming from auth
-            'family_detail_id'     =>['nullable','integer','exists:family_details,id'],
             'order_type'           =>['required','in:'. implode(',', Order::$orderTypes)],
             'visit'                =>['required','boolean'],
             'delivery'             =>['required','boolean'],

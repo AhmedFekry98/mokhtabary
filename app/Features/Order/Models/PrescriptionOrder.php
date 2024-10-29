@@ -11,7 +11,6 @@ class PrescriptionOrder extends Model
 
     protected $fillable = [
         'client_id',
-        'family_detail_id',
         'receiver_id',
         'order_type',
         'status'

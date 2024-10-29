@@ -35,10 +35,6 @@ class User extends Authenticatable implements HasMedia
         return $this->hasOne(ClientDetail::class , 'client_id');
     }
 
-    public function familyDetail()
-    {
-        return $this->hasOne(FamilyDetail::class , 'client_id');
-    }
 
     public function labDetail()
     {

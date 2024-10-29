@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('register')->group(function () {
     Route::post('/{guard}', [UserController::class, 'register'])
-        ->where('guard', 'client|lab|radiology|family|labBranch|radiologyBranch')
-        ->middleware(CheckGuardMiddleware::class);
+        ->where('guard', 'client|lab|radiology|labBranch|radiologyBranch');
+
 });
 
 Route::prefix('auth')->group(function () {

@@ -30,26 +30,16 @@ class UserController extends Controller
         if(is_string($result)){
             return $this->badResponse($result);
         }
-     // Prepare the response data
-        $data = [
-            'result' => $result
-        ];
 
-        // Check if the guard is 'family' and add the token if true
-        if ($guard != 'family') {
-            $tokenName = $request->userAgent() . ' - ' . $request->ip();
-            $token = $result->createToken($tokenName);
-            $data['token'] =$token->plainTextToken;
-            $responseData['token'] = $data['token'];
-        }
-
-        $responseData = [
-            'result' => UserResource::make($data['result']),
-        ];
-
+        $tokenName = $request->userAgent() . ' - ' . $request->ip();
+        $token = $result->createToken($tokenName);
 
         return $this->okResponse(
-            data:$responseData,
+            data:[
+                'token' => $token->plainTextToken,
+                'result' => UserResource::make($result)
+            ],
+
             message: "successfully registeretion",
         );
 

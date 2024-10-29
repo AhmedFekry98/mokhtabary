@@ -22,10 +22,6 @@ class ClientDetail extends Model
 
     ];
 
-    public function family()
-    {
-        return $this->hasMany(FamilyDetail::class,'client_id','client_id');
-    }
 
     public function country()
     {
