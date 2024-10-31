@@ -21,7 +21,7 @@ make  user resoucre for branches
 
 -- parent_id is refrence to id in labdetail // done
 
-
+-- lab master only make add in labtest
 
 
 -- log

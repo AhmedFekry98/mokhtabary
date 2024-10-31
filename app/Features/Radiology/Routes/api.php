@@ -1,5 +1,6 @@
 <?php
 
+use App\Features\Radiology\Controllers\FilterController;
 use App\Features\Radiology\Controllers\RadiologyBranchController;
 use App\Features\Radiology\Controllers\RadiologyController;
 use App\Features\Radiology\Controllers\RadiologyxRayController;
@@ -41,3 +42,11 @@ Route::prefix("radiologies")->group(function() {
       Route::delete('/{id}', [RadiologyBranchController::class , 'destroy'])->middleware(['auth:sanctum']);
 
   });
+
+
+  // filters
+Route::prefix("filters")->group(function() {
+
+    Route::get('radiology-xray', [FilterController::class , 'filterRadiologyXray']);
+});
+

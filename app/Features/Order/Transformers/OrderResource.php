@@ -48,52 +48,53 @@ class OrderResource extends JsonResource
         // Retrieve the receiver based on the order type
         $receiver = $this->order_type == 'test' ?
         [
-            'email'         => $this->testOrder()->first()->labTest->lab->email ?? null,
-            'phone'         => $this->testOrder()->first()->labTest->lab->phone ?? null,
-            'name'          => $this->testOrder()->first()->labTest->lab->labDetail->name ?? null,
-            'country'       => $this->testOrder()->first()->labTest->lab->labDetail->country ?? null,
-            'city'          => $this->testOrder()->first()->labTest->lab->labDetail->city ?? null,
-            'state'         => $this->testOrder()->first()->labTest->lab->labDetail->state ?? null,
-            'street'        => $this->testOrder()->first()->labTest->lab->labDetail->street ?? null,
-            'post_code'     => $this->testOrder()->first()->labTest->lab->labDetail->post_code ?? null,
-            'description'   => $this->testOrder()->first()->labTest->lab->labDetail->description ?? null,
+            'id'                => $this->testOrder()->first()->labTest->lab->id,    // module user
+            'email'             => $this->testOrder()->first()->labTest->lab->email, // module user
+            'phone'             => $this->testOrder()->first()->labTest->lab->phone, // module user
+            'name'              => $this->testOrder()->first()->labTest->lab->labDetail->name, // model user function labDetail
+            'country_info'      => $this->testOrder()->first()->labTest->lab->labDetail->country()->first(['id','name_ar','name_en']), // model user function labDetail
+            'city_info'         => $this->testOrder()->first()->labTest->lab->labDetail->city()->first(['id','name_ar','name_en']), // model user function labDetail
+            'governorate_info'  => $this->testOrder()->first()->labTest->lab->labDetail->governorate()->first(['id','name_ar','name_en']), // model user function labDetail
+            'street'            => $this->testOrder()->first()->labTest->lab->labDetail->street, // model user function labDetail
+            'description'       => $this->testOrder()->first()->labTest->lab->labDetail->description, // model user function labDetail
 
         ]
         :
         [
-            'email'         => $this->testOrder()->first()->radiologyXRay->radiology->email ?? null,
-            'phone'         => $this->testOrder()->first()->radiologyXRay->radiology->phone ?? null,
-            'name'          => $this->testOrder()->first()->radiologyXRay->radiology->radiologyDetail->name ?? null,
-            'country'       => $this->testOrder()->first()->radiologyXRay->radiology->radiologyDetail->country ?? null,
-            'city'          => $this->testOrder()->first()->radiologyXRay->radiology->radiologyDetail->city ?? null,
-            'state'         => $this->testOrder()->first()->radiologyXRay->radiology->radiologyDetail->state ?? null,
-            'street'        => $this->testOrder()->first()->radiologyXRay->radiology->radiologyDetail->street ?? null,
-            'post_code'     => $this->testOrder()->first()->radiologyXRay->radiology->radiologyDetail->post_code ?? null,
-            'description'   => $this->testOrder()->first()->radiologyXRay->radiology->radiologyDetail->description ?? null,
+
+            'id'                => $this->testOrder()->first()->radiologyXRay->radiology->id,    // module user
+            'email'             => $this->testOrder()->first()->radiologyXRay->radiology->email, // module user
+            'phone'             => $this->testOrder()->first()->radiologyXRay->radiology->phone, // module user
+            'name'              => $this->testOrder()->first()->radiologyXRay->radiology->radiologyDetail->name, // model user function radiologyDetail
+            'country_info'      => $this->testOrder()->first()->radiologyXRay->radiology->radiologyDetail->country()->first(['id','name_ar','name_en']), // model user function radiologyDetail
+            'city_info'         => $this->testOrder()->first()->radiologyXRay->radiology->radiologyDetail->city()->first(['id','name_ar','name_en']), // model user function radiologyDetail
+            'governorate_info'  => $this->testOrder()->first()->radiologyXRay->radiology->radiologyDetail->governorate()->first(['id','name_ar','name_en']), // model user function radiologyDetail
+            'street'            => $this->testOrder()->first()->radiologyXRay->radiology->radiologyDetail->street, // model user function radiologyDetail
+            'description'       => $this->testOrder()->first()->radiologyXRay->radiology->radiologyDetail->description, // model user function radiologyDetail
 
         ];
 
         return [
             "id"        => $this->id,
             "orderType" => $this->order_type,
-            "delivery"  => $this->delivery,
-            "visit"     => $this->delivery,
-            "status"    => $this->delivery,
+            "delivery"  => $this->delivery == 0 ? 'No' : 'Yes',
+            "visit"     => $this->visit == 0 ? 'No' : 'Yes',
+            "status"    => $this->status ,
             "receiver"  => $receiver, // Keep unique labs here or radiology
-            "order_info" => $orderInfo,
+
 
             "client"  => [
-                'phone'     => $this->client->phone ?? null,
-                'email'     => $this->client->email ?? null,
-                'name'      => $this->client->clientDetail->name ?? null,
-                'country'   => $this->client->clientDetail->country ?? null,
-                'city'      => $this->client->clientDetail->city ?? null,
-                'state'     => $this->client->clientDetail->state ?? null,
-                'street'    => $this->client->clientDetail->street ?? null,
-                'post_code' => $this->client->clientDetail->post_code ?? null,
+                'id'                => $this->client->id,    // module user
+                'email'             => $this->client->email, // module user
+                'phone'             => $this->client->phone, // module user
+                'name'              => $this->client->clientDetail->name, // model user function clientDetail
+                'country_info'      => $this->client->clientDetail->country()->first(['id','name_ar','name_en']), // model user function clientDetail
+                'city_info'         => $this->client->clientDetail->city()->first(['id','name_ar','name_en']), // model user function clientDetail
+                'governorate_info'  => $this->client->clientDetail->governorate()->first(['id','name_ar','name_en']), // model user function clientDetail
+                'street'            => $this->client->clientDetail->street, // model user function clientDetail
             ],
 
-
+            "order_info" => $orderInfo,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];

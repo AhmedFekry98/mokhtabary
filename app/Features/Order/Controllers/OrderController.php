@@ -64,19 +64,6 @@ class OrderController extends Controller
     }
 
     /**
-        * Update the specified resource in storage.
-        */
-    public function update(UpOrderRequest $request, string $id)
-    {
-        $result = $this->orderService->updateOrderById($id,TDOFacade::make($request));
-
-        return $this->okResponse(
-            $result,
-            "Success api call"
-        );
-    }
-
-    /**
         * Remove the specified resource from storage.
         */
     public function destroy(string $id)

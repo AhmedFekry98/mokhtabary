@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('prescription_orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('client_id');
-            $table->unsignedInteger('receiver_id');
+            $table->unsignedInteger('receiver_id')->nullable();
             $table->enum('order_type',PrescriptionOrder::$orderTypes);
             $table->enum('status',PrescriptionOrder::$statuses)->default('pending');
             $table->timestamps();

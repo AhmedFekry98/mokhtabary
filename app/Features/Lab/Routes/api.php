@@ -1,5 +1,6 @@
 <?php
 
+use App\Features\Lab\Controllers\FilterController;
 use App\Features\Lab\Controllers\LabBranchController;
 use App\Features\Lab\Controllers\LabController;
 use App\Features\Lab\Controllers\LabTestController;
@@ -41,3 +42,11 @@ Route::prefix("labs-branches")->group(function() {
     Route::delete('/{id}', [LabBranchController::class , 'destroy'])->middleware(['auth:sanctum']);
 
 });
+
+// filters
+Route::prefix("filters")->group(function() {
+
+    Route::get('lab-test', [FilterController::class , 'filterLabTest']);
+});
+
+

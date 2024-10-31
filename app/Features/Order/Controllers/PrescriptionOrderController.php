@@ -2,6 +2,10 @@
 
 namespace App\Features\Order\Controllers;
 
+use App\Features\Order\Requests\StPrescriptionOrderRequest;
+use App\Features\Order\Services\PrescriptionOrderService;
+use App\Features\Order\Transformers\PrescriptionOrderResource;
+use Graphicode\Standard\Facades\TDOFacade;
 use Graphicode\Standard\Traits\ApiResponses;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -14,14 +18,16 @@ class PrescriptionOrderController extends Controller
     /**
         * Inject your service in constructor
         */
-    public function __construct() {}
+    public function __construct(
+        private PrescriptionOrderService $prescriptionOrderService
+    ) {}
 
     /**
         * Display a listing of the resource.
         */
     public function index()
     {
-        $result = null;
+        $result = $this->prescriptionOrderService->getPrescriptionOrders();
 
         if (is_string($result)) {
             return $this->badResponse(
@@ -30,7 +36,7 @@ class PrescriptionOrderController extends Controller
         }
 
         return $this->okResponse(
-            $result,
+            PrescriptionOrderResource::collection($result),
             "Success api call"
         );
     }
@@ -38,9 +44,9 @@ class PrescriptionOrderController extends Controller
     /**
         * Store a newly created resource in storage.
         */
-    public function store(Request $request)
+    public function store(StPrescriptionOrderRequest $request)
     {
-        $result = null;
+        $result = $this->prescriptionOrderService->storePrescriptionOrder(TDOFacade::make($request));
 
         if (is_string($result)) {
             return $this->badResponse(
@@ -49,7 +55,7 @@ class PrescriptionOrderController extends Controller
         }
 
         return $this->okResponse(
-            $result,
+            PrescriptionOrderResource::make($result),
             "Success api call"
         );
     }
@@ -59,7 +65,7 @@ class PrescriptionOrderController extends Controller
         */
     public function show(string $id)
     {
-        $result = null;
+        $result = $this->prescriptionOrderService->getPrescriptionOrderById($id);
 
         if (is_string($result)) {
             return $this->badResponse(
@@ -68,26 +74,7 @@ class PrescriptionOrderController extends Controller
         }
 
         return $this->okResponse(
-            $result,
-            "Success api call"
-        );
-    }
-
-    /**
-        * Update the specified resource in storage.
-        */
-    public function update(Request $request, string $id)
-    {
-        $result = null;
-
-        if (is_string($result)) {
-            return $this->badResponse(
-                message: $result
-            );
-        }
-
-        return $this->okResponse(
-            $result,
+            PrescriptionOrderResource::make($result),
             "Success api call"
         );
     }
@@ -97,7 +84,7 @@ class PrescriptionOrderController extends Controller
         */
     public function destroy(string $id)
     {
-        $result = null;
+        $result = $this->prescriptionOrderService->deletePrescriptionOrderById($id);
 
         if (is_string($result)) {
             return $this->badResponse(
@@ -106,7 +93,7 @@ class PrescriptionOrderController extends Controller
         }
 
         return $this->okResponse(
-            $result,
+            PrescriptionOrderResource::make($result),
             "Success api call"
         );
     }

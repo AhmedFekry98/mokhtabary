@@ -15,6 +15,8 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('client_id');
+            $table->unsignedInteger('receiver_id');
+            $table->unsignedInteger('branch_id');
             $table->enum('order_type',Order::$orderTypes);
             $table->boolean('visit');
             $table->boolean('delivery');
