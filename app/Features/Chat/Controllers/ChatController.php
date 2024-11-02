@@ -3,45 +3,73 @@
 namespace App\Features\Chat\Controllers;
 
 use App\Features\Chat\Models\Chat;
-use App\Features\Chat\Models\Message;
+use App\Features\Chat\Requests\StoreMessageRequest;
+use App\Features\Chat\Transformers\ChatResource;
 use Graphicode\Standard\Traits\ApiResponses;
 use Illuminate\Routing\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
     use ApiResponses;
 
-    public function joinChat(Request $request)
+    public function chats()
     {
-        $chat = Chat::firstOrCreate(['id' => $request->chat_id]);
-        $chat->users()->syncWithoutDetaching([auth()->id()]);
+        $authId = Auth::id();
 
-        return response()->json(['status' => 'Joined Chat!']);
+        $chats = Chat::whereHas('users', fn($q) => $q->whereUserId($authId))
+            ->get();
+
+            ChatResource::withoutMessages();
+
+        return $this->okResponse(
+            ChatResource::collection($chats),
+            "Success API call"
+        );
     }
 
-    public function sendMessage(Request $request)
+    public function showChat($chatId)
     {
-        $message = Message::create([
-            'sender_id' => auth()->id(),
-            'chat_id' => $request->chat_id,
+        $authId = Auth::id();
+
+        $chat = Chat::whereId($chatId)
+            ->with('messages')
+            ->first();
+
+        if (!$chat || !$chat->users()->whereUserId($authId)->exists()) {
+            return $this->badResponse(null, "No chat with id '$chatId'");
+        }
+
+        return $this->okResponse(
+            ChatResource::make($chat),
+            "Success API call"
+        );
+    }
+
+    public function storeMessage(StoreMessageRequest $request)
+    {
+        $authId = Auth::id();
+
+        // ? GEt chat between users if exists.
+        $chat = Chat::whereHas('users', fn($q) => $q->whereUserId($authId))
+            ->whereHas('users', fn($q) => $q->whereUserId($request->to))
+            ->first();
+
+        // ? creaate new chat if no chat between them.
+        if (!$chat) {
+            $chat = Chat::create();
+            $chat->users()->attach([$authId, $request->to]);
+        }
+
+        // ? attach message to chat
+        $message = $chat->messages()->create([
+            'sender_id' => $authId,
             'content' => $request->content,
         ]);
 
-        // broadcast(new NewMessage($message))->toOthers();
+        // ? broadcast message to resiver user.
+        // broadcast(new MessageSent($message));
 
-        return response()->json(['status' => 'Message Sent!']);
-    }
-
-    public function fetchMessages($chatId)
-    {
-        $messages = Message::where('chat_id', $chatId)->with('sender')->orderBy('created_at', 'asc')->get();
-        return response()->json($messages);
-    }
-
-    public function fetchChatMembers($chatId)
-    {
-        $chat = Chat::findOrFail($chatId);
-        return response()->json($chat->users);
+        return $this->createdResponse(null, "Message sent successfuly");
     }
 }

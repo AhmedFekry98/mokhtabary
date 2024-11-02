@@ -29,6 +29,11 @@ class User extends Authenticatable implements HasMedia
         'phone_verified_at' => 'datetime',
     ];
 
+    protected function getNameAttribute()
+    {
+        return $this->clientDetail?->name ?? $this->radiologyDetail?->name ?? $this->labDetail()?->name ?? $this->email;
+    }
+
 
     public function clientDetail()
     {
