@@ -16,9 +16,13 @@ class RadiologyService
     public function getRadiologies()
     {
         try {
-            $radiologies =  self::$model::whereHas('roles', function ($query)  {
-                $query->where('name','radiology');
-            })->paginate(10);
+            $query =  self::$model::whereHas('roles', function ($query) {
+                $query->where('name', 'radiology');
+            });
+
+            $radiologies = request()->has('asPaginate')
+                ? $query->paginate(10)
+                : $query->get();
 
             return $radiologies;
         } catch (\Exception $e) {
@@ -32,8 +36,8 @@ class RadiologyService
     public function getRadiologyById(string $radiologyId)
     {
         try {
-            $radiology =  self::$model::whereHas('roles', function ($query)  {
-                $query->where('name','radiology');
+            $radiology =  self::$model::whereHas('roles', function ($query) {
+                $query->where('name', 'radiology');
             })->find($radiologyId);
 
             if (! $radiology) return "No model with id $radiologyId";
@@ -65,9 +69,9 @@ class RadiologyService
 
             // update img lab
             $img = $tdo->img;
-            if($img){
+            if ($img) {
                 $radiology->addMedia($img)
-                ->toMediaCollection('users');
+                    ->toMediaCollection('users');
             }
             return $radiology;
         } catch (\Exception $e) {

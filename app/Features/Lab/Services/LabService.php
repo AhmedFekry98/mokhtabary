@@ -16,11 +16,16 @@ class LabService
     public function getLabs()
     {
         try {
-            $labs = self::$model::whereHas('roles', function ($query)  {
-                            $query->where('name','lab');
-                        })->paginate(10);
-            return $labs;
+            $query = self::$model::whereHas('roles', function ($query) {
+                $query->where('name', 'lab');
+            });
 
+            $labs = request()->has('asPaginate')
+                ? $query->paginate(10)
+                : $query->get();
+
+
+            return $labs;
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -31,8 +36,8 @@ class LabService
     public function getLabById(string $labId)
     {
         try {
-            $lab =  self::$model::whereHas('roles', function ($query)  {
-                $query->where('name','lab');
+            $lab =  self::$model::whereHas('roles', function ($query) {
+                $query->where('name', 'lab');
             })->find($labId);
             if (! $lab) return "No model with id $labId";
             return $lab;
@@ -62,9 +67,9 @@ class LabService
 
             // update img lab
             $img = $tdo->img;
-            if($img){
+            if ($img) {
                 $lab->addMedia($img)
-                ->toMediaCollection('users');
+                    ->toMediaCollection('users');
             }
 
             return $lab;
