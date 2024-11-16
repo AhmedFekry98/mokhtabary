@@ -8,8 +8,10 @@
         "php": "^8.2",
         "graphicode/standard": "v3.0",
         "laravel/framework": "^11.9",
+        "laravel/reverb": "*",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "pusher/pusher-php-server": "^7.2",
         "spatie/laravel-medialibrary": "^11.9"
     },
     "require-dev": {
