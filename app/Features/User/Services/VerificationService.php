@@ -24,9 +24,9 @@ class VerificationService
             ->where('expired_at', '>', now())
             ->count();
 
-            if ($validCodes > 0) {
-                return 'plese waiting the 5mins and try agin';
-            }
+            // if ($validCodes > 0) {
+            //     return 'plese waiting the 5mins and try agin';
+            // }
 
         $verificationCode = $user->createVerificationCode(now()->addMinute(5));
 

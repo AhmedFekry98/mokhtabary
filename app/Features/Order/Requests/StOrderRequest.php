@@ -24,6 +24,7 @@ class StOrderRequest extends FormRequest
     {
         return [
             // 'client_id',  // comming from auth
+            'patient_name'              => ['required','string'], //
             'receiver_id'          => ['required','exists:users,id','integer'], // id user
             'branch_id'            => ['required','exists:users,id','integer'], // id user
             'order_type'           =>['required','in:'. implode(',', Order::$orderTypes)],

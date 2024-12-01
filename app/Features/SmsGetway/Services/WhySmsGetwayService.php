@@ -31,20 +31,20 @@ class WhySmsGetwayService
         $response = Http::withHeaders([
             "Accept" => "application/json",
             "Content-Type" => "application/json",
-            'Authorization' =>"Bearer $this->authKey",
+            'Authorization' => "Bearer $this->authKey",
         ])->post($this->url, [
-            'recipient' => $recipient ,
+            'recipient' => $recipient,
             'sender_id' => $this->senderId,
             'type'      => $this->type,
             'message'   => $message
-        ]);     
+        ]);
 
         if ($response->ok()) {
-            $decodedResponse = json_decode($response->body(), true);
+
+         $decodedResponse = json_decode($response->body(), true);
             return $decodedResponse['data'] ?? null;
         }
 
         return false;
-        
     }
 }

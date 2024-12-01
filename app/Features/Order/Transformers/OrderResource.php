@@ -76,6 +76,7 @@ class OrderResource extends JsonResource
 
         return [
             "id"        => $this->id,
+            "patient_name"   => $this->patient_name,
             "orderType" => $this->order_type,
             "delivery"  => $this->delivery == 0 ? 'No' : 'Yes',
             "visit"     => $this->visit == 0 ? 'No' : 'Yes',

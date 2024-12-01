@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('patient_name');
             $table->unsignedInteger('client_id');
             $table->unsignedInteger('receiver_id');
             $table->unsignedInteger('branch_id');

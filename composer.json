@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "graphicode/standard": "v3.0",
+        "graphicode/standard": "v3.1",
         "laravel/framework": "^11.9",
         "laravel/reverb": "*",
         "laravel/sanctum": "^4.0",
