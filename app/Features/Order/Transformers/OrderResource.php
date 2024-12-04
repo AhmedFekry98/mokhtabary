@@ -94,7 +94,13 @@ class OrderResource extends JsonResource
                 'governorate_info'  => $this->client->clientDetail->governorate()->first(['id','name_ar','name_en']), // model user function clientDetail
                 'street'            => $this->client->clientDetail->street, // model user function clientDetail
             ],
-
+            "coupon_info" => [
+                'coupon_id'             => $this->coupon_id,
+                'code'                  => $this->promo_code,
+                'discount_percentage'   => $this->discount_percentage,
+                'discount_value'        => $this->discount_value,
+            ],
+            "amount"    =>  $this->amount,
             "order_info" => $orderInfo,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,

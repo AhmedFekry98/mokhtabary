@@ -2,6 +2,7 @@
 
 namespace App\Features\Order\Services;
 
+use App\Features\Order\Helpers\CalculatedAmountOrderHeleper;
 use Graphicode\Standard\TDO\TDO;
 use App\Features\Order\Models\Order;
 use Illuminate\Support\Facades\DB;
@@ -32,22 +33,33 @@ class OrderService
         try {
             DB::beginTransaction();
             $creationData = $tdo->all();
-            $orderTypes = $creationData['order_type'];
-            $orderInfo =  $creationData['order_info'];
             $creationData['client_id'] = auth()->user()->id;
 
+            $receiverid = $creationData['receiver_id'];
+            $orderType  = $creationData['order_type'];
+            $ids        =  $creationData['order_info'];
+            $couponId   = $creationData['coupon_id'];
+
+            // Call the helper function to calculate the amount
+            $calculatedAmountOrder = CalculatedAmountOrderHeleper::calculatedAmountlOrder($receiverid,$orderType,$ids,$couponId);
+            // data camming  helper function to calculate the amount
+
+            $creationData['amount'] = $calculatedAmountOrder['amount'];
+            $creationData['promo_code'] = $calculatedAmountOrder['promo_code'];
+            $creationData['discount_percentage'] = $calculatedAmountOrder['discount_percentage'];
+            $creationData['discount_value'] = $calculatedAmountOrder['discount_value'];
             //  create order
             $order =  self::$model::create($creationData);
 
             /* check order type is test or xray to add it in testorder or xray order*/
-            switch ($orderTypes) {
+            switch ($orderType) {
                 case 'test':
-                    foreach ($orderInfo  as $orderInfo) {
+                    foreach ($ids  as $orderInfo) {
                         $order->testOrder()->create(['lab_test_id' => $orderInfo['id']]);
                     }
                     break;
                 case 'xray':
-                    foreach ($orderInfo  as $orderInfo) {
+                    foreach ($ids  as $orderInfo) {
                         $order->xrayOrder()->create(['radiology_x_ray_id' => $orderInfo['id']]);
                     }
                     break;

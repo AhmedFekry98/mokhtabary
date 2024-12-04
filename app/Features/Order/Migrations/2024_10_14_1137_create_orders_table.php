@@ -15,6 +15,13 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('patient_name');
+
+            $table->unsignedInteger('coupon_id')->nullable();
+            $table->string('promo_code')->nullable();
+            $table->float('discount_percentage')->nullable();
+            $table->float('discount_value')->nullable();
+            $table->float('amount');
+
             $table->unsignedInteger('client_id');
             $table->unsignedInteger('receiver_id');
             $table->unsignedInteger('branch_id');

@@ -11,10 +11,6 @@ class LabTestService
 {
     private static $model = LabTest::class;
 
-    public function __construct(
-        private TestService $testService
-    )
-    {}
     /**
      * Get All useing lab_id = user_id with role master lab
      */
@@ -80,5 +76,19 @@ class LabTestService
         }
     }
 
+    /**
+     * get test for lab useing multi ids for test_id and lab_id
+     */
 
+     public function getLabTestByIds(string $labId , array $ids)
+     {
+        try {
+            $labTest = self::$model::where('lab_id',$labId)->whereIn('test_id', $ids)->get();
+            if (! $labTest) return "No model with id $labId or $ids";
+            return $labTest;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+     }
 }

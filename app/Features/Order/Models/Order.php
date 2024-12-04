@@ -12,6 +12,11 @@ class Order extends Model
 
     protected $fillable = [
         'patient_name',
+        'coupon_id',
+        'promo_code',
+        'discount_percentage',
+        'discount_value',
+        'amount',
         'client_id',
         'receiver_id',
         'branch_id',
