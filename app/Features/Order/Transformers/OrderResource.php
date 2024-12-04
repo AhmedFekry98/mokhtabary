@@ -57,6 +57,7 @@ class OrderResource extends JsonResource
             'governorate_info'  => $this->testOrder()->first()->labTest->lab->labDetail->governorate()->first(['id','name_ar','name_en']), // model user function labDetail
             'street'            => $this->testOrder()->first()->labTest->lab->labDetail->street, // model user function labDetail
             'description'       => $this->testOrder()->first()->labTest->lab->labDetail->description, // model user function labDetail
+            'role'              => $this->testOrder()->first()->labTest->lab->role->name,
 
         ]
         :
@@ -71,6 +72,7 @@ class OrderResource extends JsonResource
             'governorate_info'  => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->governorate()->first(['id','name_ar','name_en']), // model user function radiologyDetail
             'street'            => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->street, // model user function radiologyDetail
             'description'       => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->description, // model user function radiologyDetail
+            'role'              => $this->xrayOrder()->first()->radiologyXRay->radiology->role->name,
 
         ];
 
