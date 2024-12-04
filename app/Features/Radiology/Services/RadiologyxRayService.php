@@ -81,7 +81,7 @@ class RadiologyxRayService
     public function getRadiologyxRayByIds(string $radiologyId , array $ids)
     {
        try {
-           $radiologyxRay = self::$model::where('radiology_id',$radiologyId)->whereIn('test_id', $ids)->get();
+           $radiologyxRay = self::$model::where('radiology_id',$radiologyId)->whereIn('x_ray_id', $ids)->get();
            if (! $radiologyxRay) return "No model with id $radiologyId or $ids";
            return $radiologyxRay;
        } catch (\Exception $e) {
