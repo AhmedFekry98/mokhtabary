@@ -29,7 +29,8 @@ class Order extends Model
     public static $statuses = [
         'rejected',
         'confirmed',
-        'pending'
+        'pending',
+        'paid'
     ];
 
     public static $orderTypes = [

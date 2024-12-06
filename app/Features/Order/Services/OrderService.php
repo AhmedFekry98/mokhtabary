@@ -108,4 +108,26 @@ class OrderService
             return $e->getMessage();
         }
     }
+
+
+    // update order status
+    public function updateStatusOrderById(string $orderId,TDO $tdo)
+    {
+        try {
+            $updateData = collect(
+                $tdo->all(true)
+                )->except([
+                    // ignore any key?
+                    ])->toArray();
+
+                    // get model to delete by id
+                    $order =  $this->getOrderById($orderId);
+                    if (is_string($order)) return $order;
+                    $order->status =$updateData['status'];
+                    $order->save();
+            return $this->getOrderById($orderId);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
 }
