@@ -2,6 +2,7 @@
 
 namespace App\Features\Order\Models;
 
+use App\Features\Payment\Models\InvoiceTransaction;
 use App\Features\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -51,6 +52,11 @@ class Order extends Model
     public function client()
     {
         return $this->belongsTo(User::class , "client_id" );
+    }
+
+    public function invoiceTransaction()
+    {
+        return $this->hasMany(InvoiceTransaction::class,'order_id','id');
     }
 
 

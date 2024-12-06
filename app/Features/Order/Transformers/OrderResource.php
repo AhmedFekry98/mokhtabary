@@ -14,6 +14,7 @@ class OrderResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
         // Collect order info
         $orderInfo = $this->order_type == 'test' ?
             $this->testOrder->map(function ($testOrder) {
@@ -102,6 +103,7 @@ class OrderResource extends JsonResource
                 'discount_percentage'   => $this->discount_percentage,
                 'discount_value'        => $this->discount_value,
             ],
+            'invoice_transaction' => $this->invoiceTransaction,
             "amount"    =>  $this->amount,
             "order_info" => $orderInfo,
             "created_at" => $this->created_at,
