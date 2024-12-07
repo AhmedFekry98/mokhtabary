@@ -18,7 +18,6 @@ class DatabaseSeeder  extends Seeder
         $this->call(ClientSeeder::class);
         $this->call(SettingSeeder::class);
         $this->call(DealSeeder::class);
-
         $this->call(ChatSystemSeeder::class);
         $this->call(OrderSeeder::class);
 
