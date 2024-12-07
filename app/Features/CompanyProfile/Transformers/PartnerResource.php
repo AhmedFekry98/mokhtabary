@@ -15,8 +15,9 @@ class PartnerResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'    => $this->id,
-            'img'   => $this->getFirstMediaUrl('partner'),
+            'id'      => $this->id,
+            'partner'    => $this->partner,
+            'img'     => $this->getFirstMediaUrl('partner'),
         ];
     }
 }

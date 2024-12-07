@@ -39,6 +39,14 @@ class SettingSeeder extends Seeder
         }
 
 
+        // craete 10 row
+        for($i=0; $i<10; $i++ ){
+            Partner::create([
+                'partner' => "Partner $i",
+            ]);
+        }
+
+
 
     }
 }

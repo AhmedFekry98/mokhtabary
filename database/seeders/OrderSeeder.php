@@ -63,15 +63,15 @@ class OrderSeeder extends Seeder
 
         foreach($orders as $order){
             InvoiceTransaction::create([
-                "InvoiceId"                     => 39713900,
-                "CustomerReference"             => $order->id,
-                "PaymentMethod"                 => fake()->randomElement(['Apple Pay (mada)' , 'Visa']),
-                "CreatedDate"                   =>"01122024154951",
-                "TransactionStatus"             => "SUCCESS",
-                "InvoiceValueInBaseCurrency"    => "50",
-                "BaseCurrency"                  => "SAR",
-                "InvoiceValueInPayCurrency"     => "50",
-                "PayCurrency"                   => "SAR"
+                "invoice_id"                     => 39713900,
+                "order_id"             => $order->id,
+                "payment_method"                 => fake()->randomElement(['Apple Pay (mada)' , 'Visa']),
+                "date_operation"                   =>"01122024154951",
+                "transaction_status"             => "SUCCESS",
+                "invoice_value_in_base_currency"    => "50",
+                "base_currency"                  => "SAR",
+                "invoice_value_in_pay_currency"     => "50",
+                "pay_currency"                   => "SAR"
             ]);
         }
     }

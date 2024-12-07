@@ -13,12 +13,16 @@ class Partner extends Model  implements HasMedia
     use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
-        //
+        'partner'
     ];
 
-    public function registerAllMediaConversions(?Media $media = null): void
+    public function registerMediaCollections(): void
     {
         $this->addMediaCollection('partner')
-            ->singleFile();
+            ->singleFile()
+            // ->useFallbackPath()
+            ->useFallbackUrl(
+                asset('/img/partner-image.png')
+            );
     }
 }
