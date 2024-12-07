@@ -53,9 +53,9 @@ class OrderResource extends JsonResource
             'email'             => $this->testOrder()->first()->labTest->lab->email?? null, // module user
             'phone'             => $this->testOrder()->first()->labTest->lab->phone?? null, // module user
             'name'              => $this->testOrder()->first()->labTest->lab->labDetail->name?? null, // model user function labDetail
-            'country_info'      => $this->testOrder()->first()->labTest->lab->labDetail->country()->first(['id','name_ar','name_en']), // model user function labDetail
-            'city_info'         => $this->testOrder()->first()->labTest->lab->labDetail->city()->first(['id','name_ar','name_en']), // model user function labDetail
-            'governorate_info'  => $this->testOrder()->first()->labTest->lab->labDetail->governorate()->first(['id','name_ar','name_en']), // model user function labDetail
+            'country_info'      => $this->testOrder()->first()->labTest->lab->labDetail->country()->first(['id','name_ar','name_en'])?? null, // model user function labDetail
+            'city_info'         => $this->testOrder()->first()->labTest->lab->labDetail->city()->first(['id','name_ar','name_en'])?? null, // model user function labDetail
+            'governorate_info'  => $this->testOrder()->first()->labTest->lab->labDetail->governorate()->first(['id','name_ar','name_en'])?? null, // model user function labDetail
             'street'            => $this->testOrder()->first()->labTest->lab->labDetail->street?? null, // model user function labDetail
             'description'       => $this->testOrder()->first()->labTest->lab->labDetail->description?? null, // model user function labDetail
             'role'              => $this->testOrder()->first()->labTest->lab->role->name?? null,
@@ -68,9 +68,9 @@ class OrderResource extends JsonResource
             'email'             => $this->xrayOrder()->first()->radiologyXRay->radiology->email?? null, // module user
             'phone'             => $this->xrayOrder()->first()->radiologyXRay->radiology->phone?? null, // module user
             'name'              => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->name?? null, // model user function radiologyDetail
-            'country_info'      => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->country()->first(['id','name_ar','name_en']), // model user function radiologyDetail
-            'city_info'         => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->city()->first(['id','name_ar','name_en']), // model user function radiologyDetail
-            'governorate_info'  => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->governorate()->first(['id','name_ar','name_en']), // model user function radiologyDetail
+            'country_info'      => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->country()->first(['id','name_ar','name_en'])?? null, // model user function radiologyDetail
+            'city_info'         => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->city()->first(['id','name_ar','name_en'])?? null, // model user function radiologyDetail
+            'governorate_info'  => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->governorate()->first(['id','name_ar','name_en'])?? null, // model user function radiologyDetail
             'street'            => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->street?? null, // model user function radiologyDetail
             'description'       => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->description?? null, // model user function radiologyDetail
             'role'              => $this->xrayOrder()->first()->radiologyXRay->radiology->role->name,
