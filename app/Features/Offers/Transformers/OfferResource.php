@@ -37,11 +37,16 @@ class OfferResource extends JsonResource
                         'street'        => $offerDital->offerable->radiology->radiologyDetail['street']      ??$offerDital->offerable->lab->labDetail['street']       ?? null,
                         'post_code'     => $offerDital->offerable->radiology->radiologyDetail['post_code']   ??$offerDital->offerable->lab->labDetail['post_code']    ?? null,
                         'description'   => $offerDital->offerable->radiology->radiologyDetail['description'] ??$offerDital->offerable->lab->labDetail['description']  ?? null,
+                        'role'         =>  $role = $offerDital->offerable->radiology->role->name ?? $offerDital->offerable->role->name ?? null,
+                        'type'         =>  $role == 'lab' ? 'test' : 'xray',
                 ];
             }
 
             $offerbale[] =  [
                 // get labtest or radiologyXray with morph function
+
+               'id'  => $offerDital->offerable['id'] ?? null,
+               'contract_price'  => $offerDital->offerable['contract_price'] ?? null,
                'contract_price'  => $offerDital->offerable['contract_price'] ?? null,
                'beforePrice'     => $offerDital->offerable['before_price'] ?? null,
                'afterPrice'      => $offerDital->offerable['after_price'] ?? null,

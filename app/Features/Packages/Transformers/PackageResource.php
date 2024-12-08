@@ -37,6 +37,8 @@ class PackageResource extends JsonResource
                         'street'        => $packageDital->packageable->radiology->radiologyDetail['street']      ??$packageDital->packageable->lab->labDetail['street']       ?? null,
                         'post_code'     => $packageDital->packageable->radiology->radiologyDetail['post_code']   ??$packageDital->packageable->lab->labDetail['post_code']    ?? null,
                         'description'   => $packageDital->packageable->radiology->radiologyDetail['description'] ??$packageDital->packageable->lab->labDetail['description']  ?? null,
+                        'role'         =>  $role = $packageDital->packageable->radiology->role->name ?? $packageDital->packageable->role->name ?? null,
+                        'type'         =>  $role == 'lab' ? 'test' : 'xray',
                 ];
             }
 
