@@ -9,7 +9,7 @@ class RadiologyXrayFilter
 {
     private static $model = RadiologyxRay::class;
 
-    public function filterByTestIds(array $ids)
+    public function filterByXrayIds(array $ids)
     {
         $result = self::$model::whereIn('x_ray_id', $ids)->paginate(10);
 
@@ -58,17 +58,17 @@ class RadiologyXrayFilter
                 }) ?? null,
 
                 // Details and totals
-                'details'          => $radiologyGroup->map(function ($radiologyTest) {
+                'details'          => $radiologyGroup->map(function ($radiologyXray) {
                     return [
-                        "id"             => $radiologyTest->id,
-                        "test_id"        => $radiologyTest->test_id,
-                        "radiology_id"   => $radiologyTest->radiology_id,
-                        "contract_price" => $radiologyTest->contract_price,
-                        "before_price"   => $radiologyTest->before_price,
-                        "after_price"    => $radiologyTest->after_price,
-                        "offer_price"    => $radiologyTest->offer_price,
-                        "created_at"     => $radiologyTest->created_at,
-                        "updated_at"     => $radiologyTest->updated_at,
+                        "id"             => $radiologyXray->id,
+                        "x_ray_id"        => $radiologyXray->x_ray_id,
+                        "radiology_id"   => $radiologyXray->radiology_id,
+                        "contract_price" => $radiologyXray->contract_price,
+                        "before_price"   => $radiologyXray->before_price,
+                        "after_price"    => $radiologyXray->after_price,
+                        "offer_price"    => $radiologyXray->offer_price,
+                        "created_at"     => $radiologyXray->created_at,
+                        "updated_at"     => $radiologyXray->updated_at,
                     ];
                 }),
 

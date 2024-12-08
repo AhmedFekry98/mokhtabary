@@ -18,7 +18,7 @@ class RadiologyHelper
     public static function getRadiologytByIds(array $ids)  // param ids = id of test
     {
         $radiologyXrayFilter = new RadiologyXrayFilter();
-        $result = $radiologyXrayFilter->filterByTestIds($ids);
+        $result = $radiologyXrayFilter->filterByXrayIds($ids);
         return $result;
     }
 }
