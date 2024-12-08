@@ -27,6 +27,7 @@ class OfferResource extends JsonResource
             if (!$receiver) {
                 $receiver = [
                     // get data form user model
+                        'receiver_id'   => $offerDital->offerable->radiology['id'] ?? $offerDital->offerable->lab['id'] ?? null, // id user
                         'email'         => $offerDital->offerable->radiology['email'] ?? $offerDital->offerable->lab['email'] ?? null,
                         'phone'         => $offerDital->offerable->radiology['phone'] ?? $offerDital->offerable->lab['phone'] ?? null,
                     // get data from function readiology or lab in user more details

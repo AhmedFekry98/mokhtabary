@@ -27,6 +27,7 @@ class PackageResource extends JsonResource
             if (!$receiver) {
                 $receiver = [
                     // get data form user model
+                        'receiver_id'   => $packageDital->packageable->radiology['id'] ?? $packageDital->packageable->lab['id'] ?? null, // id user
                         'email'         => $packageDital->packageable->radiology['email'] ?? $packageDital->packageable->lab['email'] ?? null,
                         'phone'         => $packageDital->packageable->radiology['phone'] ?? $packageDital->packageable->lab['phone'] ?? null,
                     // get data from function readiology or lab in user more details
