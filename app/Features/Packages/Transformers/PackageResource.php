@@ -42,6 +42,7 @@ class PackageResource extends JsonResource
 
             $packagebale[] =  [
                 // get labtest or radiologyXray with morph function
+               'id'              => $packageDital->packageable['id'] ?? null,
                'contract_price'  => $packageDital->packageable['contract_price'] ?? null,
                'beforePrice'     => $packageDital->packageable['before_price'] ?? null,
                'afterPrice'      => $packageDital->packageable['after_price'] ?? null,
