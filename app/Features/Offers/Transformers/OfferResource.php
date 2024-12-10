@@ -65,7 +65,7 @@ class OfferResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
 
-                    'totale' => $totalAfterPrice,
+                    'total' => $totalAfterPrice,
                     'receiver' => $receiver,
                     'details' => $offerbale, // Renamed for clarity
                     'createdAt' => $this->created_at,

@@ -63,7 +63,7 @@ class PackageResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
 
-                    'totale' => $totalAfterPrice,
+                    'total' => $totalAfterPrice,
                     'receiver' => $receiver,
                     'details' => $packagebale, // Renamed for clarity
                     'createdAt' => $this->created_at,
