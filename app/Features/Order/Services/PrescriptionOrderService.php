@@ -18,8 +18,12 @@ class PrescriptionOrderService
     public function getPrescriptionOrders()
     {
         try {
-            $prescriptionOrders =  self::$model::get();
-
+            $userRole = auth()->user()->role->name;
+            if($userRole === 'admin'){
+                $prescriptionOrders =  self::$model::get();
+            }else{
+                $prescriptionOrders = $this->getPrescriptionOrdersGroupedByPerson();
+            }
             return $prescriptionOrders;
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -107,4 +111,38 @@ class PrescriptionOrderService
         }
     }
 
+    private function getPrescriptionOrdersGroupedByPerson()
+    {
+        try{
+            $userId = auth()->user()->id;
+            $prescriptionOrders = self::$model::where('client_id', $userId)->get();
+            return $prescriptionOrders;
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
+    }
+
+    public function getPrescriptionOrdersCount()
+    {
+        try {
+            $userRole = auth()->user()->role->name;
+            $userId = auth()->user()->id;
+
+            $query = $userRole === 'admin'
+                ? self::$model::query()
+                : self::$model::where('client_id', $userId);
+
+            return [
+                'total' => $query->count(),
+                'test' => $query->where('order_type', 'test')->count(),
+                'xray' => $query->where('order_type', 'xray')->count()
+            ];
+        } catch (\Exception $e) {
+            return [
+                'total' => 0,
+                'test' => 0,
+                'xray' => 0
+            ];
+        }
+    }
 }
