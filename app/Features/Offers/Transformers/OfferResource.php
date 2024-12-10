@@ -19,9 +19,14 @@ class OfferResource extends JsonResource
         $offerbale = [];
         $totalAfterPrice = 0; // To calculate the total afterPrice
         $receiver = null;
+        $testNames = []; // Array to collect test names
+        $type = null; // To store whether it's a test or xray
+        $totalOfferPrice = 0;
         foreach($offerDitals as $offerDital ){
-            $afterPrice = $offerDital->offerable['after_price'] ?? 0; // Ensure you're accessing the right key for afterPrice
+            $afterPrice = floatval($offerDital->offerable['after_price'] ?? 0);
+            $offerPrice = floatval($offerDital->offerable['offer_price'] ?? 0);
             $totalAfterPrice += $afterPrice;
+            $totalOfferPrice += $offerPrice;
 
              // Capture receiver details from the first package only
             if (!$receiver) {
@@ -59,17 +64,38 @@ class OfferResource extends JsonResource
                'name_ar'            => $offerDital->offerable->xRay['name_ar']  ??  $packageDital->packageable->test['name_ar'] ?? null,
 
             ];
+
+            // Collect test/xray name and determine type
+            if ($offerDital->offerable->xRay) {
+                $name = $offerDital->offerable->xRay['name_en'] ?? null;
+                $type = 'xray';
+            } else {
+                $name = $offerDital->offerable->test['name_en'] ?? null;
+                $type = 'test';
+            }
+            if ($name) {
+                $testNames[] = $name;
+            }
         }
+
+        $testNamesString = !empty($testNames) ? '(' . implode('-', $testNames) . ')' : '';
+        $messagePrefix = $type === 'xray' ? 'Get a discount on x-rays ' : 'Get a discount on tests ';
+
+        // Calculate discount percentage and ensure it's between 0 and 100
+        $discountPercentage = round(($totalOfferPrice / $totalAfterPrice) * 100, 2);
+
 
         $response = [
             'id' => $this->id,
             'name' => $this->name,
-
-                    'total' => $totalAfterPrice,
-                    'receiver' => $receiver,
-                    'details' => $offerbale, // Renamed for clarity
-                    'createdAt' => $this->created_at,
-                    'updatedAt' => $this->updated_at,
+            'message' => $messagePrefix . $testNamesString,
+            'total' => $totalOfferPrice,
+            // 'totalAfterPrice' => $totalAfterPrice,
+            'discount_percentage' => $discountPercentage,
+            'receiver' => $receiver,
+            'details' => $offerbale, // Renamed for clarity
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
         ];
 
         return $response;
