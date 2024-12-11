@@ -59,6 +59,9 @@ class Order extends Model
         return $this->hasMany(InvoiceTransaction::class,'order_id','id');
     }
 
-
+    public function branch()
+    {
+        return $this->belongsTo(User::class , "branch_id" );
+    }
 
 }

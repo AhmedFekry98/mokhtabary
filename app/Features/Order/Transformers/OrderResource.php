@@ -60,6 +60,7 @@ class OrderResource extends JsonResource
             'street'            => optional(optional($this->testOrder->first())->labTest->lab->labDetail)->street ?? null,
             'description'       => optional(optional($this->testOrder->first())->labTest->lab->labDetail)->description ?? null,
             'role'              => optional($this->testOrder->first())->labTest->lab->role->name ?? null,
+            'branch'            => $this->branch->labDetail,
         ]
         :
         [
@@ -73,6 +74,7 @@ class OrderResource extends JsonResource
             'street'            => optional(optional($this->xrayOrder->first())->radiologyXRay->radiology->radiologyDetail)->street ?? null,
             'description'       => optional(optional($this->xrayOrder->first())->radiologyXRay->radiology->radiologyDetail)->description ?? null,
             'role'              => optional($this->xrayOrder->first())->radiologyXRay->radiology->role->name ?? null,
+            'branch'            => $this->branch->radiologyDetail,
         ]
         ;
 
