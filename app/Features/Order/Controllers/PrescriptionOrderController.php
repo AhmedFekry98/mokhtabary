@@ -37,6 +37,7 @@ class PrescriptionOrderController extends Controller
 
         return $this->okResponse(
             PrescriptionOrderResource::collection($result),
+            PrescriptionOrderResource::collection($result),
             "Success api call"
         );
     }

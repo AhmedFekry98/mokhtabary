@@ -28,6 +28,8 @@ return new class extends Migration
             $table->string('email_address')->nullable();
             $table->text('address')->nullable();
             $table->text('about_us')->nullable();
+            $table->float('vat')->default(14);
+            $table->float('discount_percentage_mediscan')->default(1);
             $table->timestamps();
         });
 

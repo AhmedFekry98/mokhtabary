@@ -36,6 +36,8 @@ class UpBasicInformationRquest extends FormRequest
             'email_address'  => ['nullable','email','max:255'],
             'address'        => ['nullable','string'],
             'about_us'        => ['nullable','string'],
+            'vat'            => ['nullable','numeric'],
+            'discount_percentage_mediscan' => ['nullable','numeric'],
         ];
     }
 }

@@ -140,13 +140,13 @@ class OrderService
         try{
             $type = request('type') ?? null;
             $userId = auth()->user()->id;
-            
+
             $query = self::$model::where('client_id', $userId);
-            
+
             if ($type !== null) {
                 $query->where('order_type', $type);
             }
-            
+
             $orders = $query->get();
             return $orders;
         }catch(\Exception $e){
@@ -159,22 +159,19 @@ class OrderService
         try {
             $userRole = auth()->user()->role->name;
             $userId = auth()->user()->id;
-            
-            $query = $userRole === 'admin' 
-                ? self::$model::query() 
+
+            $baseQuery = $userRole === 'admin'
+                ? self::$model::query()
                 : self::$model::where('client_id', $userId);
-            
+
             return [
-                'total' => $query->count(),
-                'test' => $query->where('order_type', 'test')->count(),
-                'xray' => $query->where('order_type', 'xray')->count()
+                'total' => (clone $baseQuery)->count(),
+                'test' => (clone $baseQuery)->where('order_type', 'test')->count(),
+                'xray' => (clone $baseQuery)->where('order_type', 'xray')->count()
             ];
+
         } catch (\Exception $e) {
-            return [
-                'total' => 0,
-                'test' => 0,
-                'xray' => 0
-            ];
+            return $e->getMessage();
         }
     }
 }

@@ -28,6 +28,8 @@ class BasicInformation extends Model implements HasMedia
         'email_address',
         'address',
         'about_us',
+        'vat',
+        'discount_percentage_mediscan',
     ];
 
     public function registerMediaCollections(): void
