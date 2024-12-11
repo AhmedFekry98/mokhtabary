@@ -144,7 +144,7 @@ class OrderService
             $query = self::$model::where('client_id', $userId);
 
             if ($type !== null) {
-                $query->where('order_type', $type);
+                $query = $query->where('order_type', $type);
             }
 
             $orders = $query->get();

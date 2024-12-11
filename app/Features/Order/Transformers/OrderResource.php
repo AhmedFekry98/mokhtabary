@@ -31,6 +31,7 @@ class OrderResource extends JsonResource
 
                 ];
             }) :
+
             $this->xrayOrder->map(function ($xrayOrder) {
                 return [
                     'numCode'       => $xrayOrder->radiologyXRay->xRay->num_code ?? null,
@@ -49,33 +50,31 @@ class OrderResource extends JsonResource
         // Retrieve the receiver based on the order type
         $receiver = $this->order_type == 'test' ?
         [
-            'id'                => $this->testOrder()->first()->labTest->lab->id ?? null,    // module user
-            'email'             => $this->testOrder()->first()->labTest->lab->email?? null, // module user
-            'phone'             => $this->testOrder()->first()->labTest->lab->phone?? null, // module user
-            'name'              => $this->testOrder()->first()->labTest->lab->labDetail->name?? null, // model user function labDetail
-            'country_info'      => $this->testOrder()->first()->labTest->lab->labDetail->country()->first(['id','name_ar','name_en'])?? null, // model user function labDetail
-            'city_info'         => $this->testOrder()->first()->labTest->lab->labDetail->city()->first(['id','name_ar','name_en'])?? null, // model user function labDetail
-            'governorate_info'  => $this->testOrder()->first()->labTest->lab->labDetail->governorate()->first(['id','name_ar','name_en'])?? null, // model user function labDetail
-            'street'            => $this->testOrder()->first()->labTest->lab->labDetail->street?? null, // model user function labDetail
-            'description'       => $this->testOrder()->first()->labTest->lab->labDetail->description?? null, // model user function labDetail
-            'role'              => $this->testOrder()->first()->labTest->lab->role->name?? null,
-
+            'id'                => optional($this->testOrder->first())->labTest->lab->id ?? null,
+            'email'             => optional($this->testOrder->first())->labTest->lab->email ?? null,
+            'phone'             => optional($this->testOrder->first())->labTest->lab->phone ?? null,
+            'name'              => optional(optional($this->testOrder->first())->labTest->lab->labDetail)->name ?? null,
+            'country_info'      => optional(optional($this->testOrder->first())->labTest->lab->labDetail)->country()->first(['id','name_ar','name_en']) ?? null,
+            'city_info'         => optional(optional($this->testOrder->first())->labTest->lab->labDetail)->city()->first(['id','name_ar','name_en']) ?? null,
+            'governorate_info'  => optional(optional($this->testOrder->first())->labTest->lab->labDetail)->governorate()->first(['id','name_ar','name_en']) ?? null,
+            'street'            => optional(optional($this->testOrder->first())->labTest->lab->labDetail)->street ?? null,
+            'description'       => optional(optional($this->testOrder->first())->labTest->lab->labDetail)->description ?? null,
+            'role'              => optional($this->testOrder->first())->labTest->lab->role->name ?? null,
         ]
         :
         [
-
-            'id'                => $this->xrayOrder()->first()->radiologyXRay->radiology->id?? null,    // module user
-            'email'             => $this->xrayOrder()->first()->radiologyXRay->radiology->email?? null, // module user
-            'phone'             => $this->xrayOrder()->first()->radiologyXRay->radiology->phone?? null, // module user
-            'name'              => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->name?? null, // model user function radiologyDetail
-            'country_info'      => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->country()->first(['id','name_ar','name_en'])?? null, // model user function radiologyDetail
-            'city_info'         => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->city()->first(['id','name_ar','name_en'])?? null, // model user function radiologyDetail
-            'governorate_info'  => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->governorate()->first(['id','name_ar','name_en']), // model user function radiologyDetail
-            'street'            => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->street?? null, // model user function radiologyDetail
-            'description'       => $this->xrayOrder()->first()->radiologyXRay->radiology->radiologyDetail->description?? null, // model user function radiologyDetail
-            'role'              => $this->xrayOrder()->first()->radiologyXRay->radiology->role->name,
-
-        ];
+            'id'                => optional($this->xrayOrder->first())->radiologyXRay->radiology->id ?? null,
+            'email'             => optional($this->xrayOrder->first())->radiologyXRay->radiology->email ?? null,
+            'phone'             => optional($this->xrayOrder->first())->radiologyXRay->radiology->phone ?? null,
+            'name'              => optional(optional($this->xrayOrder->first())->radiologyXRay->radiology->radiologyDetail)->name ?? null,
+            'country_info'      => optional(optional($this->xrayOrder->first())->radiologyXRay->radiology->radiologyDetail)->country()->first(['id','name_ar','name_en']) ?? null,
+            'city_info'         => optional(optional($this->xrayOrder->first())->radiologyXRay->radiology->radiologyDetail)->city()->first(['id','name_ar','name_en']) ?? null,
+            'governorate_info'  => optional(optional($this->xrayOrder->first())->radiologyXRay->radiology->radiologyDetail)->governorate()->first(['id','name_ar','name_en']) ?? null,
+            'street'            => optional(optional($this->xrayOrder->first())->radiologyXRay->radiology->radiologyDetail)->street ?? null,
+            'description'       => optional(optional($this->xrayOrder->first())->radiologyXRay->radiology->radiologyDetail)->description ?? null,
+            'role'              => optional($this->xrayOrder->first())->radiologyXRay->radiology->role->name ?? null,
+        ]
+        ;
 
         return [
             "id"        => $this->id ?? null,
