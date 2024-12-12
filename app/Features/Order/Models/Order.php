@@ -64,4 +64,9 @@ class Order extends Model
         return $this->belongsTo(User::class , "branch_id" );
     }
 
+    public function receiver()
+    {
+        return $this->belongsTo(User::class , "receiver_id" );
+    }
+
 }
