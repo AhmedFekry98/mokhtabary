@@ -10,11 +10,12 @@ use Graphicode\Standard\Facades\TDOFacade;
 
 class MyFatoorahService
 {
-    public function webhook()
+    public function webhook($request)
     {
+
         try{
             // data to created
-            $createData = $this->callback();
+            $createData = $this->callback($request);
             $orderId = $createData['CustomerReference'];
 
             // create invoice transaction
@@ -33,9 +34,9 @@ class MyFatoorahService
         }
     }
 
-    private function callback()
+    private function callback($request)
     {
-        $handleMyFatoorahWebhook = $this->handleMyFatoorahWebhook();
+        $handleMyFatoorahWebhook = $this->handleMyFatoorahWebhook($request);
         // callback
         return [
             "invoice_id"                         => $handleMyFatoorahWebhook['InvoiceId'],
@@ -50,8 +51,34 @@ class MyFatoorahService
         ];
     }
 
-    private function handleMyFatoorahWebhook()
+    private function handleMyFatoorahWebhook($request)
     {
+        //Validate webhook_secret_key
+        // $secretKey = config('features.payment.webhook_secret_key');
+        // if (empty($secretKey)) {
+        //     return response(null, 404);
+        // }
+        \Log::info('in method handleMyFatoorahWebhook', ['handleMyFatoorahWebhook' => 'handleMyFatoorahWebhook']);
+        //Validate MyFatoorah-Signature
+        $mfSignature = $request->header('MyFatoorah-Signature');
+        if (empty($mfSignature)) {
+            return response(null, 404);
+        }
+        \Log::info('scape method mfSignature', ['mfSignature' => $mfSignature ]);
+        //Validate input
+        $body  = $request->getContent();
+        \Log::info('scape method body', ['body' => $body ]);
+
+        $input = json_decode($body, true);
+        \Log::info('scape method input', ['input' => $input ]);
+
+        if (empty($input['Data']) || empty($input['EventType']) || $input['EventType'] != 1) {
+            return response(null, 404);
+        }
+        \Log::info('scape method all', ['all' => 'all' ]);
+
+
+
         // call my fatoorah webhook and return data handle webhook myfatoorah her
         return [
             "InvoiceId"                     => 39713900,
@@ -65,4 +92,5 @@ class MyFatoorahService
             "PayCurrency"                   => "SAR"
         ];
     }
+
 }

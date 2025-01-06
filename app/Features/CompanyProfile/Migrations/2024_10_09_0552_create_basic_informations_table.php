@@ -29,7 +29,7 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->text('about_us')->nullable();
             $table->float('vat')->default(14);
-            $table->float('discount_percentage_mediscan')->default(1);
+            $table->float('discount_percentage_mediscan')->default(3);
             $table->timestamps();
         });
 

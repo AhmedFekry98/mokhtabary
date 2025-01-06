@@ -174,4 +174,22 @@ class OrderService
             return $e->getMessage();
         }
     }
+
+    public function getOrderByReceiverId($receiverId)
+    {
+        try{
+            return self::$model::where('receiver_id', $receiverId)->get();
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
+    }
+
+    public function getOrderByStatusAndReceiverId($receiverId , $status)
+    {
+        try{
+            return self::$model::where('receiver_id', $receiverId)->where('status', $status)->get();
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
+    }
 }

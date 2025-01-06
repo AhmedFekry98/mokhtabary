@@ -47,6 +47,17 @@ class AuthService
         }
     }
 
+    public function getUser(string $userId)
+    {
+        try {
+            $user = User::find($userId);
+            return $user;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+
     public function changePassword(TDO $tdo)
     {
         try {

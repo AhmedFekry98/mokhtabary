@@ -10,7 +10,7 @@ class WebhookService
     // myfatoorah -  fawry - paymobe
     private $paymentGetway = 'myfatoorah';
 
-    public function PaymentGetway()
+    public function PaymentGetway($request)
     {
         $gatewayType  = $this->paymentGetway;
 
@@ -27,13 +27,13 @@ class WebhookService
             default:
                 return false;
         }
-        $handelWebhook = $this->handelWebhook($paymentGateway);
+        $handelWebhook = $this->handelWebhook($paymentGateway,$request);
         return $handelWebhook;
     }
 
-    private function handelWebhook($paymentGateway)
+    private function handelWebhook($paymentGateway,$request)
     {
-        return $paymentGateway->webhook();
+        return $paymentGateway->webhook($request);
     }
 
 }
