@@ -32,7 +32,7 @@ class PaymentController extends Controller
     {
 
 
-        $result = $this->webhookService->PaymentGetway($request->all());
+        $result = $this->webhookService->PaymentGetway($request);
         return $this->okResponse(
             $result,
             "Success api call"
