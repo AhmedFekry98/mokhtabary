@@ -58,6 +58,7 @@ class MyFatoorahService
         // if (empty($secretKey)) {
         //     return response(null, 404);
         // }
+        \Log::info('in method request', ['request' => $request ]);
         \Log::info('in method handleMyFatoorahWebhook', ['handleMyFatoorahWebhook' => 'handleMyFatoorahWebhook']);
         //Validate MyFatoorah-Signature
         $mfSignature = $request->header('MyFatoorah-Signature');
