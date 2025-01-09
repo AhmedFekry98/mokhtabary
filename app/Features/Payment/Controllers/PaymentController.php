@@ -28,11 +28,11 @@ class PaymentController extends Controller
     /**
         * Display a listing of the resource.
         */
-    public function handle(Request $request)
+    public function handle()
     {
 
 
-        $result = $this->webhookService->PaymentGetway($request);
+        $result = $this->webhookService->PaymentGetway();
         return $this->okResponse(
             $result,
             "Success api call"
@@ -69,6 +69,7 @@ class PaymentController extends Controller
     {
         $data = [
             'CustomerName' => 'ahmed',
+            'CustomerReference' => '1',
             'NotificationOption' => 'ALL',
             'InvoiceValue' =>"2000",
             'CustomerMobile' =>"0111111111",

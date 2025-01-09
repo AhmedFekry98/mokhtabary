@@ -30,7 +30,7 @@ return [
      * Enable webhook on your MyFatoorah account setting then paste the secret key here.
      * The webhook link is: https://{example.com}/myfatoorah/webhook
      */
-    'webhook_secret_key' => '',
+    'webhook_secret_key' => env('MYFATORAH_WEBHOOK_SECRET_KEY'),
     /**
      * Register Apple Pay (boolean)
      * Set it to true to show the Apple Pay on the checkout page.

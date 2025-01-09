@@ -7,23 +7,33 @@ use Graphicode\Standard\TDO\TDO;
 use App\Features\Payment\Models\MyFatoorah;
 use Exception;
 use Graphicode\Standard\Facades\TDOFacade;
+use Illuminate\Support\Facades\Http;
 
 class MyFatoorahService
 {
-    public function webhook($request)
+    private string $apiKey;
+    private string $baseUrl;
+
+    public function __construct()
+    {
+        $this->apiKey = env('MY_FATOORAH_API_KEY');
+        $this->baseUrl = env('MY_FATOORAH_BASE_URL');
+    }
+
+    public function webhook()
     {
 
         try{
             // data to created
-            $createData = $this->callback($request);
-            $orderId = $createData['CustomerReference'];
+            $createData = $this->callback();
 
+            $orderId = $createData['order_id'];
             // create invoice transaction
             $invoiceTransaction = new InvoiceTransactionService();
             $invoiceTransaction->storeInvoiceTransaction(TDOFacade::make($createData));
 
             // update status order by order_id
-            if($createData['transaction_status'] == "SUCCESS"){
+            if($createData['transaction_status'] == "Succss"){
                 $order = new OrderService();
                 $order->updateStatusOrderById($orderId,TDOFacade::make(['status' => 'paid']));
                 return true; // success payment
@@ -34,64 +44,75 @@ class MyFatoorahService
         }
     }
 
-    private function callback($request)
+    private function callback()
     {
-        $handleMyFatoorahWebhook = $this->handleMyFatoorahWebhook($request);
+        $handleMyFatoorahWebhook = $this->handleMyFatoorahWebhook();
         // callback
         return [
-            "invoice_id"                         => $handleMyFatoorahWebhook['InvoiceId'],
-            "order_id"                           => $handleMyFatoorahWebhook['CustomerReference'],
-            "payment_method"                     => $handleMyFatoorahWebhook['PaymentMethod'],
-            "date_operation"                     => $handleMyFatoorahWebhook['CreatedDate'],
-            "transaction_status"                 => $handleMyFatoorahWebhook['TransactionStatus'],
-            "invoice_value_in_base_currency"     => $handleMyFatoorahWebhook['InvoiceValueInBaseCurrency'],
-            "base_currency"                      => $handleMyFatoorahWebhook['BaseCurrency'],
-            "invoice_value_in_pay_currency"      => $handleMyFatoorahWebhook['InvoiceValueInPayCurrency'],
-            "pay_currency"                       => $handleMyFatoorahWebhook['PayCurrency']
+            'order_id'              => $handleMyFatoorahWebhook['Data']['CustomerReference'],
+            'payment_id'            => $handleMyFatoorahWebhook['Data']['InvoiceTransactions'][0]['PaymentId'] ?? null,
+            'payment_gateway'       => $handleMyFatoorahWebhook['Data']['InvoiceTransactions'][0]['PaymentGateway'] ?? null,
+            'transaction_date'      => $handleMyFatoorahWebhook['Data']['InvoiceTransactions'][0]['TransactionDate'] ?? null,
+            'transaction_status'    => $handleMyFatoorahWebhook['Data']['InvoiceTransactions'][0]['TransactionStatus'] ?? null,
+            'total_service_charge'  => $handleMyFatoorahWebhook['Data']['InvoiceTransactions'][0]['TotalServiceCharge'] ?? null,
+            'due_value'             => $handleMyFatoorahWebhook['Data']['InvoiceTransactions'][0]['DueValue'] ?? null,
+            'paid_currency'         => $handleMyFatoorahWebhook['Data']['InvoiceTransactions'][0]['PaidCurrency'] ?? null,
+            'paid_currency_value'   => $handleMyFatoorahWebhook['Data']['InvoiceTransactions'][0]['PaidCurrencyValue'] ?? null,
+            'vat_amount'            => $handleMyFatoorahWebhook['Data']['InvoiceTransactions'][0]['VatAmount'] ?? null,
+            'currency'              => $handleMyFatoorahWebhook['Data']['InvoiceTransactions'][0]['Currency'] ?? null,
+            'error'                 => $handleMyFatoorahWebhook['Data']['InvoiceTransactions'][0]['Error'] ?? null,
         ];
     }
 
-    private function handleMyFatoorahWebhook($request)
+    // call my fatoorah webhook and return data handle webhook myfatoorah her
+    private function handleMyFatoorahWebhook()
     {
+
         //Validate webhook_secret_key
-        // $secretKey = config('features.payment.webhook_secret_key');
-        // if (empty($secretKey)) {
-        //     return response(null, 404);
-        // }
-        \Log::info('in method request', ['request' => $request ]);
-        \Log::info('in method handleMyFatoorahWebhook', ['handleMyFatoorahWebhook' => 'handleMyFatoorahWebhook']);
-        //Validate MyFatoorah-Signature
-        $mfSignature = $request->header('MyFatoorah-Signature');
-        if (empty($mfSignature)) {
+        $secretKey = "ZhmU5HLe1/7S1zzBcBGckazMCQ1NL0DzxSpUlFHd+QgEZx+1VLH0vBW4wVhTF2dtnhXWVAea8kIGHjhyFAAYmg==";
+        if (empty($secretKey)) {
             return response(null, 404);
         }
-        \Log::info('scape method mfSignature', ['mfSignature' => $mfSignature ]);
+        $request = request();
+
         //Validate input
         $body  = $request->getContent();
-        \Log::info('scape method body', ['body' => $body ]);
 
         $input = json_decode($body, true);
-        \Log::info('scape method input', ['input' => $input ]);
 
         if (empty($input['Data']) || empty($input['EventType']) || $input['EventType'] != 1) {
             return response(null, 404);
         }
-        \Log::info('scape method all', ['all' => 'all' ]);
 
+        \Log::info('scape method input', ['input' => $input ]);
 
+        $paymentId = $input['Data']['PaymentId'];
+        $paymentStatus = $this->getPaymentStatus($paymentId);
 
-        // call my fatoorah webhook and return data handle webhook myfatoorah her
-        return [
-            "InvoiceId"                     => 39713900,
-            "CustomerReference"             => "1",
-            "PaymentMethod"                 => "Apple Pay (mada)",
-            "CreatedDate"                   =>"01122024154951",
-            "TransactionStatus"             => "SUCCESS",
-            "InvoiceValueInBaseCurrency"    => "50",
-            "BaseCurrency"                  => "SAR",
-            "InvoiceValueInPayCurrency"     => "50",
-            "PayCurrency"                   => "SAR"
-        ];
+        \Log::info('payment status : ', ['paymentId' => $paymentId, 'paymentStatus' => $paymentStatus]);
+
+        return $paymentStatus;
+
+    }
+
+    private function MyafatoorahRequest($endpoint, $method = 'POST', $data = [])
+    {
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer {$this->apiKey}",
+            'Content-Type' => 'application/json',
+            ])->{$method}("{$this->baseUrl}/$endpoint", $data);
+
+            // dd($response);
+        if ($response->failed()) {
+            throw new \Exception($response->body());
+        }
+
+        return $response->json();
+    }
+
+    private function getPaymentStatus($paymentId)
+    {
+        return $this->MyafatoorahRequest('v2/getPaymentStatus', 'POST', ['Key' => $paymentId, 'KeyType' => 'PaymentId']);
     }
 
 }

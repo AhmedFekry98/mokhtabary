@@ -10,14 +10,17 @@ class InvoiceTransaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        "invoice_id",
-        "order_id",
-        "payment_method",
-        "date_operation",
-        "transaction_status",
-        "invoice_value_in_base_currency",
-        "base_currency",
-        "invoice_value_in_pay_currency",
-        "pay_currency"
+        'order_id',
+        'payment_id',
+        'payment_gateway',
+        'transaction_date',
+        'transaction_status',
+        'total_service_charge',
+        'due_value',
+        'paid_currency',
+        'paid_currency_value',
+        'vat_amount',
+        'currency',
+        'error',
     ];
 }

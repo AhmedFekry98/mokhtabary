@@ -1,0 +1,94 @@
+<?php
+
+
+public function webhook(Request $request) {
+    $payload = $request->json()->all();
+    $record = PaymentWebhook::where('payment_id', $payload['Data']['PaymentId'])
+                                    ->where('invoice_id', $payload['Data']['InvoiceId'])
+                                    ->first();
+    if(isset($payload['Data']['TransactionStatus']) && $payload['Data']['TransactionStatus'] == 'SUCCESS') {
+        $record->update([
+            'status' => 'SUCCESS',
+            'notes' => 'Payment Success'
+        ]);
+        $this->CreateOrder(
+            serviceId: $record->service_id,
+            paymentMethod: 'card',
+            paymentID: $record->payment_id
+        );
+    } else {
+        $record->update([
+            'status' => isset($payload['Data']['TransactionStatus']) ? $payload['Data']['TransactionStatus'] : 'FAILED',
+        ]);
+    }
+}
+
+public function callback(Request $request) {
+    $data = $request->validate([
+        'paymentId' => 'required|string|exists:payment_webhooks,payment_id',
+    ]);
+    try{
+        $myFatoorah = new MyFatoorah;
+        $response = $myFatoorah->callback($data['paymentId']);
+        if(array_key_exists('Data', $response) && $response['Data']['InvoiceStatus'] == 'Paid') {
+            $paymentWebohook = PaymentWebhook::where('payment_id', $data['paymentId'])->first();
+            if($paymentWebohook && $paymentWebohook->status == 'PENDING') {
+                $paymentWebohook->update([
+                    'status' => 'SUCCESS',
+                    'notes' => 'Payment Success'
+                ]);
+                $this->CreateOrder(
+                    serviceId: $paymentWebohook->service_id,
+                    paymentMethod: 'card',
+                    paymentID: $paymentWebohook->payment_id
+                );
+            }
+            return ApiHelper::respondOk(['success' => true]);
+        } else {
+            return ApiHelper::respondInternalError(['success' => false]);
+        }
+    } catch(Exception $e){
+        return ApiHelper::respondInternalError($e->getMessage());
+    }
+}
+
+
+
+[2025-01-06 13:05:58] local.INFO: in method request {"request":
+    {"EventType":1,"Event":"TransactionsStatusChanged","DateTime":"06012025160558","CountryIsoCode":"KWT","Data":
+        {"InvoiceId":4928622,"InvoiceReference":"2025000002","CreatedDate":"06012025155952","CustomerReference":null,
+            "CustomerName":"ahmed","CustomerMobile":"+9650111111111","CustomerEmail":"oT8oP@example.com","TransactionStatus":
+            "FAILED","PaymentMethod":"VISA/MASTER","UserDefinedField":null,"ReferenceId":"07074928622242364773","TrackId":
+            "06-01-2025_2423647","PaymentId":"07074928622242364773","AuthorizationId":"07074928622242364773",
+            "InvoiceValueInBaseCurrency":"2000","BaseCurrency":"KWD","InvoiceValueInDisplayCurreny":"2000","DisplayCurrency":"KWD",
+            "InvoiceValueInPayCurrency":"2000","PayCurrency":"KWD"}}}
+
+
+
+
+            order_id
+
+                    "data": {
+
+
+
+                        "customerReference": null,
+                        "invoiceTransactions": [
+                            {
+                                "paymentId": "07074941376242848974",
+                                "paymentGateway": "VISA/MASTER",
+                                "transactionDate": "2025-01-09T02:18:48.3833333",
+                                "transactionStatus": "Failed",
+
+                                "totalServiceCharge": "60.000",
+                                "dueValue": "2,000.000",
+                                "paidCurrency": "KD",
+                                "paidCurrencyValue": "2,000.000",
+                                "vatAmount": "9.000",
+                                "currency": "KD",
+                                "error": "DECLINED : Do not honour",
+
+                            }
+                        ],
+
+                    }

@@ -13,15 +13,18 @@ return new class extends Migration
     {
         Schema::create('invoice_transactions', function (Blueprint $table) {
             $table->id();
-            $table->string("invoice_id");
             $table->unsignedInteger("order_id");
-            $table->string("payment_method");
-            $table->string("date_operation");
+            $table->string("payment_id");
+            $table->string("payment_gateway");
+            $table->string("transaction_date");
             $table->string("transaction_status");
-            $table->string("invoice_value_in_base_currency");
-            $table->string("base_currency");
-            $table->string("invoice_value_in_pay_currency");
-            $table->string("pay_currency");
+            $table->string("total_service_charge");
+            $table->string("due_value");
+            $table->string("paid_currency");
+            $table->string("paid_currency_value");
+            $table->string("vat_amount");
+            $table->string("currency");
+            $table->string("error")->nullable();
             $table->timestamps();
         });
     }
